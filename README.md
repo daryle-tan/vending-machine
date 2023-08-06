@@ -15,3 +15,9 @@
 ### c. The vending machine should be to restock the inventory
 
 ### 2. There will be a user interface that allows the customer to select a snack and purchase it.
+
+## Getting Started
+
+run 'npx hardhat'
+
+In a separate terminal and ensure that you are in the app directory run 'npm run dev' to start nextjs.s
