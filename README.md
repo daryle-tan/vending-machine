@@ -14,15 +14,15 @@ As a hungry consumer, I want to be able to purchase snacks from a vending machin
 
 ###
 
-a. If a certain snack is sold out then the transaction will not go through
+  a. If a certain snack is sold out then the transaction will not go through
 
 ###
 
-b. Customer must have enough ether for the purchase
+  b. Customer must have enough ether for the purchase
 
 ###
 
-c. The vending machine should be able to restock the inventory
+  c. The vending machine should be able to restock the inventory
 
 ###
 
