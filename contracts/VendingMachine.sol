@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
+// import "hardhat/console.sol";
+
 contract VendingMachine {
     /* Errors */
     error VendingMachine__OverStock(string message);
@@ -20,6 +22,8 @@ contract VendingMachine {
     mapping(string => Snacks) public inventory;
     // tracks balances of each caller that interacts with the contract
     mapping(address => uint256) public balances;
+    /* Events */
+    event Purchased(string msg, uint256 qtyPurchased, string snackPurchased);
     /*  Modifier */
     modifier onlyOwner() {
         require(msg.sender == i_owner, "Not contract owner");
@@ -60,6 +64,8 @@ contract VendingMachine {
 
         balances[msg.sender] += snackPrice; // accounts for the amount spent from customer
         contractBalance += snack.price; // accounts for revenue earned by vending machine
+
+        emit Purchased("Thank you for your purchase of ", _quantity, _snack);
     }
 
     // Function to withdraw funds
