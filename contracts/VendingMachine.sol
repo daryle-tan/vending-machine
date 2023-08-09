@@ -73,13 +73,14 @@ contract VendingMachine {
     // Function to withdraw funds
     function withdraw() public onlyOwner {
         address ownerOfContract = msg.sender;
+        uint256 _balance = address(this).balance;
         (bool success, ) = ownerOfContract.call{value: address(this).balance}(
             ""
         );
         if (!success) {
             revert VendingMachine__TransferFailed();
         }
-        emit WithdrawFunds(ownerOfContract, address(this).balance);
+        emit WithdrawFunds(ownerOfContract, _balance);
     }
 
     // Function to restock the inventory
