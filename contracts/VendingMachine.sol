@@ -6,6 +6,7 @@ pragma solidity ^0.8.18;
 contract VendingMachine {
     /* Errors */
     error VendingMachine__OverStock(string message);
+    error VendingMachine__TransferFailed();
     /* State Variables */
     // use address(this).balance to find the contract's balance
     uint256 public constant INITIAL_QUANTITY = 20;
@@ -24,6 +25,7 @@ contract VendingMachine {
     mapping(address => uint256) public balances;
     /* Events */
     event Purchased(string msg, uint256 qtyPurchased, string snackPurchased);
+    event WithdrawFunds(address ownerAccount, uint256 withdrawBalance);
     /*  Modifier */
     modifier onlyOwner() {
         require(msg.sender == i_owner, "Not contract owner");
@@ -69,7 +71,16 @@ contract VendingMachine {
     }
 
     // Function to withdraw funds
-    function withdraw() public onlyOwner {}
+    function withdraw() public onlyOwner {
+        address ownerOfContract = msg.sender;
+        (bool success, ) = ownerOfContract.call{value: address(this).balance}(
+            ""
+        );
+        if (!success) {
+            revert VendingMachine__TransferFailed();
+        }
+        emit WithdrawFunds(ownerOfContract, address(this).balance);
+    }
 
     // Function to restock the inventory
     // only the owner should be able to call this fn
