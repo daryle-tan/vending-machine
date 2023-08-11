@@ -42,9 +42,9 @@ contract VendingMachine {
         snackNames.push("cookies");
     }
 
-    // fallback function handles unexpected function calls
-    fallback() external {
-        revert("Unexpected function call");
+    // receive function to handle ether being sent
+    receive() external payable {
+        balances[msg.sender] += msg.value;
     }
 
     // Function that takes in ether payment in exchange for specific snack

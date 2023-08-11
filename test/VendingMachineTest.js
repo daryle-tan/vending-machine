@@ -46,4 +46,20 @@ describe("VendingMachine", function () {
       }),
     ).to.be.revertedWith("We've sold out of this item!")
   })
+
+  it("Should return the balance of the vending machine", async function () {
+    const contractBalanceBefore = await vendingMachine.getBalance()
+    const amountToSend = ethers.utils.parseEther("1.0")
+
+    // Send some funds to the contract
+    await owner.sendTransaction({
+      to: vendingMachine.address,
+      value: amountToSend,
+    })
+
+    const contractBalanceAfter = await vendingMachine.getBalance()
+    expect(contractBalanceAfter).to.equal(
+      contractBalanceBefore.add(amountToSend),
+    )
+  })
 })
