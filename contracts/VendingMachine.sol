@@ -75,12 +75,7 @@ contract VendingMachine {
         // address ownerOfContract = msg.sender;
         uint256 _balance = address(this).balance;
         payable(i_owner).transfer(_balance);
-        // (bool success, ) = ownerOfContract.call{value: address(this).balance}(
-        //     ""
-        // );
-        // if (!success) {
-        //     revert VendingMachine__TransferFailed();
-        // }
+
         emit WithdrawFunds(i_owner, _balance);
     }
 
