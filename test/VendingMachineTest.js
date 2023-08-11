@@ -47,6 +47,10 @@ describe("VendingMachine", function () {
     ).to.be.revertedWith("We've sold out of this item!")
   })
 
+  it("Should withdraw the funds from the vending machine", async function () {
+    await expect(vendingMachine.connect(owner).withdraw())
+  })
+
   it("Should return the balance of the vending machine", async function () {
     const contractBalanceBefore = await vendingMachine.getBalance()
     const amountToSend = ethers.utils.parseEther("1.0")
