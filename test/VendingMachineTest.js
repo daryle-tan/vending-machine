@@ -14,9 +14,9 @@ describe("VendingMachine", function () {
 
   it("Should reduce quantity of the snack and increment the balance of contract", async function () {
     const initialBalance = await vendingMachine.getBalance()
-    await vendingMachine
-      .connect(addr1)
-      .purchaseSnack("chips", 1, { value: ethers.utils.parseEther("0.001") })
+    await vendingMachine.connect(addr1).purchaseSnack("chips", 1, {
+      value: ethers.utils.parseEther("0.001"),
+    })
     const finalBalance = await vendingMachine.getBalance()
     expect(finalBalance).to.equal(
       initialBalance.add(ethers.utils.parseEther("0.001")),

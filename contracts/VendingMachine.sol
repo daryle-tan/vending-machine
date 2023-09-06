@@ -2,7 +2,6 @@
 pragma solidity ^0.8.18;
 
 // import "hardhat/console.sol";
-
 contract VendingMachine {
     /* Errors */
     error VendingMachine__OverStock(string message);
@@ -24,7 +23,12 @@ contract VendingMachine {
     // tracks balances of each caller that interacts with the contract
     mapping(address => uint256) public balances;
     /* Events */
-    event Purchased(string msg, uint256 qtyPurchased, string snackPurchased);
+    event Purchased(
+        string msg,
+        uint256 qtyPurchased,
+        string snackPurchased,
+        uint256 snackPrice
+    );
     event WithdrawFunds(address ownerAccount, uint256 withdrawBalance);
     /*  Modifier */
     modifier onlyOwner() {
@@ -48,30 +52,36 @@ contract VendingMachine {
     }
 
     // Function that takes in ether payment in exchange for specific snack
-    function purchaseSnack(string calldata _snack, uint256 _quantity)
-        public
-        payable
-    {
+    function purchaseSnack(
+        string calldata _snack,
+        uint256 _quantity,
+        uint256 _snackPrice
+    ) public payable {
         Snacks storage snack = inventory[_snack];
-        uint256 snackPrice = snack.price; // Retrieve the price based on the snack name
+        _snackPrice = snack.price; // Retrieve the price based on the snack name
 
-        require(snackPrice > 0, "Invalid snack selected"); // Verify that the snack price exists
+        require(_snackPrice > 0, "Invalid snack selected"); // Verify that the snack price exists
         require(
-            msg.value >= snackPrice,
+            msg.value >= _snackPrice,
             "Declined! Insufficient payment amount."
         ); // Verify that the payment is sufficient
 
         require(snack.quantity >= _quantity, "We've sold out of this item!"); // Verify the quantity of snacks in the vending machine
         snack.quantity -= _quantity;
 
-        balances[msg.sender] += snackPrice; // accounts for the amount spent from customer
+        balances[msg.sender] += _snackPrice; // accounts for the amount spent from customer
         contractBalance += snack.price; // accounts for revenue earned by vending machine
 
-        emit Purchased("Thank you for your purchase of ", _quantity, _snack);
+        emit Purchased(
+            "Thank you for your purchase of ",
+            _quantity,
+            _snack,
+            _snackPrice
+        );
     }
 
     // Function to withdraw funds
-    function withdraw() public onlyOwner {
+    function withdraw() external onlyOwner {
         // address ownerOfContract = msg.sender;
         uint256 _balance = address(this).balance;
         payable(i_owner).transfer(_balance);
