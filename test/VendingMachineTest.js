@@ -1,4 +1,4 @@
-const { ethers } = require("hardhat")
+// const { ethers } = require("hardhat")
 const { expect, assert } = require("chai")
 
 describe("VendingMachine", function () {
@@ -6,17 +6,15 @@ describe("VendingMachine", function () {
   beforeEach(async function () {
     VendingMachineFactory = await ethers.getContractFactory("VendingMachine")
     ;[owner, addr1, addr2, ...addrs] = await ethers.getSigners()
-    vendingMachine = await VendingMachineFactory.deploy({
-      value: ethers.utils.parseEther("1.0"),
-    })
+    vendingMachine = await VendingMachineFactory.deploy()
     await vendingMachine.deployed()
   })
 
   it("Should reduce quantity of the snack and increment the balance of contract", async function () {
     const initialBalance = await vendingMachine.getBalance()
-    await vendingMachine.connect(addr1).purchaseSnack("chips", 1, {
-      value: ethers.utils.parseEther("0.001"),
-    })
+    await vendingMachine
+      .connect(addr1)
+      .purchaseSnack("chips", 1, ethers.utils.parseEther("0.001"))
     const finalBalance = await vendingMachine.getBalance()
     expect(finalBalance).to.equal(
       initialBalance.add(ethers.utils.parseEther("0.001")),
