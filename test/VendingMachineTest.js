@@ -1,16 +1,23 @@
-// const { ethers } = require("hardhat")
-const { expect, assert } = require("chai")
+const { ethers } = require("hardhat")
+const { expect } = require("chai")
+const { loadFixture } = require("@nomicfoundation/hardhat-network-helpers")
 
 describe("VendingMachine", function () {
-  let VendingMachineFactory, vendingMachine
-  beforeEach(async function () {
-    VendingMachineFactory = await ethers.getContractFactory("VendingMachine")
+  async function deployVendingMachineFixture() {
+    const VendingMachineFactory = await ethers.getContractFactory(
+      "VendingMachine",
+    )
+    const vendingMachine = await VendingMachineFactory.deploy()
     const [owner, addr1, addr2, ...addrs] = await ethers.getSigners()
-    vendingMachine = await VendingMachineFactory.deploy()
+
     await vendingMachine.deployed()
-  })
+    return { vendingMachine, owner, addr1, addr2, ...addrs }
+  }
 
   it("Should reduce quantity of the snack and increment the balance of contract", async function () {
+    const { vendingMachine, owner, addr1, addr2 } = await loadFixture(
+      deployVendingMachineFixture,
+    )
     const initialBalance = await vendingMachine.getBalance()
     await vendingMachine
       .connect(addr1)
@@ -22,6 +29,9 @@ describe("VendingMachine", function () {
   })
 
   it("Should fail if insufficient funds are sent", async function () {
+    const { vendingMachine, owner, addr1, addr2 } = await loadFixture(
+      deployVendingMachineFixture,
+    )
     await expect(
       vendingMachine.connect(addr1).purchaseSnack("chips", 1, {
         value: ethers.utils.parseEther("0.0005"),
@@ -30,6 +40,9 @@ describe("VendingMachine", function () {
   })
 
   it("Should fail if invalid snack is selected", async function () {
+    const { vendingMachine, owner, addr1, addr2 } = await loadFixture(
+      deployVendingMachineFixture,
+    )
     await expect(
       vendingMachine.connect(addr1).purchaseSnack("invalid", 1, {
         value: ethers.utils.parseEther("0.001"),
@@ -38,6 +51,9 @@ describe("VendingMachine", function () {
   })
 
   it("Should fail if trying to purchase more snacks than available", async function () {
+    const { vendingMachine, owner, addr1, addr2 } = await loadFixture(
+      deployVendingMachineFixture,
+    )
     await expect(
       vendingMachine.connect(addr1).purchaseSnack("chips", 21, {
         value: ethers.utils.parseEther("0.021"),
@@ -46,10 +62,16 @@ describe("VendingMachine", function () {
   })
 
   it("Should withdraw the funds from the vending machine", async function () {
+    const { vendingMachine, owner, addr1, addr2, ...addrs } = await loadFixture(
+      deployVendingMachineFixture,
+    )
     await expect(vendingMachine.connect(owner).withdraw())
   })
 
   it("Should return the balance of the vending machine", async function () {
+    const { vendingMachine, owner, addr1, addr2 } = await loadFixture(
+      deployVendingMachineFixture,
+    )
     const contractBalanceBefore = await vendingMachine.getBalance()
     const amountToSend = ethers.utils.parseEther("1.0")
 
