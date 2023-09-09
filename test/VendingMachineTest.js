@@ -5,7 +5,7 @@ describe("VendingMachine", function () {
   let VendingMachineFactory, vendingMachine
   beforeEach(async function () {
     VendingMachineFactory = await ethers.getContractFactory("VendingMachine")
-    ;[owner, addr1, addr2, ...addrs] = await ethers.getSigners()
+    const [owner, addr1, addr2, ...addrs] = await ethers.getSigners()
     vendingMachine = await VendingMachineFactory.deploy()
     await vendingMachine.deployed()
   })
