@@ -86,4 +86,13 @@ describe("VendingMachine", function () {
       contractBalanceBefore.add(amountToSend),
     )
   })
+
+  it("Should return snack quantity and price", async function () {
+    const { vendingMachine, owner, addr1, addr2 } = await loadFixture(
+      deployVendingMachineFixture,
+    )
+    const [quantity, price] = await vendingMachine.getSnack("chips")
+    console.log("Quantity: ", quantity.toString())
+    console.log("Price: ", ethers.utils.formatEther(price))
+  })
 })

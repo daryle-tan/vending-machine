@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-// import "hardhat/console.sol";
+import "hardhat/console.sol";
+
 contract VendingMachine {
     /* Errors */
     error VendingMachine__OverStock(string message);
@@ -19,6 +20,7 @@ contract VendingMachine {
         uint256 quantity;
         uint256 price;
     }
+
     mapping(string => Snacks) public inventory;
     // tracks balances of each caller that interacts with the contract
     mapping(address => uint256) public balances;
@@ -107,8 +109,18 @@ contract VendingMachine {
     }
 
     // Function to check the balance of the vending machine
-    function getBalance() public view returns (uint256) {
+    function getBalance() external view returns (uint256) {
         return address(this).balance;
+    }
+
+    // Function to get the snack information in inventory
+    function getSnack(string memory _snack)
+        external
+        view
+        returns (uint256, uint256)
+    {
+        Snacks storage snack = inventory[_snack];
+        return (snack.quantity, snack.price);
     }
 }
 
