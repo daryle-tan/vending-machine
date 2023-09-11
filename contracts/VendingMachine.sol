@@ -27,8 +27,8 @@ contract VendingMachine {
     /* Events */
     event Purchased(
         string msg,
-        uint256 qtyPurchased,
         string snackPurchased,
+        uint256 qtyPurchased,
         uint256 snackPrice
     );
     event WithdrawFunds(address ownerAccount, uint256 withdrawBalance);
@@ -41,10 +41,10 @@ contract VendingMachine {
     constructor() payable {
         i_owner = msg.sender;
         inventory["chips"] = Snacks(INITIAL_QUANTITY, 0.001 ether);
-        inventory["drinks"] = Snacks(INITIAL_QUANTITY, 0.002 ether);
-        inventory["cookies"] = Snacks(INITIAL_QUANTITY, 0.001 ether);
         snackNames.push("chips");
+        inventory["drinks"] = Snacks(INITIAL_QUANTITY, 0.002 ether);
         snackNames.push("drinks");
+        inventory["cookies"] = Snacks(INITIAL_QUANTITY, 0.001 ether);
         snackNames.push("cookies");
     }
 
@@ -55,19 +55,19 @@ contract VendingMachine {
 
     // Function that takes in ether payment in exchange for specific snack
     function purchaseSnack(
-        string calldata _snack,
+        string memory _snack,
         uint256 _quantity,
         uint256 _snackPrice
-    ) public payable {
+    ) external payable {
         Snacks storage snack = inventory[_snack];
-        _snackPrice = snack.price; // Retrieve the price based on the snack name
+        // _snackPrice = snack.price; // Retrieve the price based on the snack name
 
-        require(_snackPrice > 0, "Invalid snack selected"); // Verify that the snack price exists
+        require(snack.price > 0 ether, "Invalid snack selected"); // Verify that the snack price exists
         require(
-            msg.value >= _snackPrice,
+            msg.value >= snack.price,
             "Declined! Insufficient payment amount."
         ); // Verify that the payment is sufficient
-
+        require(_quantity > 0, "Choose quantity to purchase");
         require(snack.quantity >= _quantity, "We've sold out of this item!"); // Verify the quantity of snacks in the vending machine
         snack.quantity -= _quantity;
 
@@ -76,10 +76,11 @@ contract VendingMachine {
 
         emit Purchased(
             "Thank you for your purchase of ",
-            _quantity,
             _snack,
+            _quantity,
             _snackPrice
         );
+        console.log("line 84", _snack, snack.quantity, snack.price);
     }
 
     // Function to withdraw funds
@@ -110,6 +111,7 @@ contract VendingMachine {
 
     // Function to check the balance of the vending machine
     function getBalance() external view returns (uint256) {
+        console.log("line 115", address(this).balance);
         return address(this).balance;
     }
 

@@ -15,27 +15,31 @@ describe("VendingMachine", function () {
   }
 
   it("Should reduce quantity of the snack and increment the balance of contract", async function () {
-    const { vendingMachine, owner, addr1, addr2 } = await loadFixture(
+    const { vendingMachine, addr1 } = await loadFixture(
       deployVendingMachineFixture,
     )
     const initialBalance = await vendingMachine.getBalance()
     await vendingMachine
       .connect(addr1)
-      .purchaseSnack("chips", 1, ethers.utils.parseEther("0.001"))
+      .purchaseSnack("drinks", 1, ethers.utils.parseEther("0.002"), {
+        value: ethers.utils.parseEther("0.002"),
+      })
     const finalBalance = await vendingMachine.getBalance()
     expect(finalBalance).to.equal(
-      initialBalance.add(ethers.utils.parseEther("0.001")),
+      initialBalance.add(ethers.utils.parseEther("0.002")),
     )
   })
 
   it("Should fail if insufficient funds are sent", async function () {
-    const { vendingMachine, owner, addr1, addr2 } = await loadFixture(
+    const { vendingMachine, owner, addr1 } = await loadFixture(
       deployVendingMachineFixture,
     )
     await expect(
-      vendingMachine.connect(addr1).purchaseSnack("chips", 1, {
-        value: ethers.utils.parseEther("0.0005"),
-      }),
+      vendingMachine
+        .connect(addr1)
+        .purchaseSnack("drinks", 1, ethers.utils.parseEther("0.002"), {
+          value: ethers.utils.parseEther("0.0005"),
+        }),
     ).to.be.revertedWith("Declined! Insufficient payment amount.")
   })
 
@@ -44,9 +48,11 @@ describe("VendingMachine", function () {
       deployVendingMachineFixture,
     )
     await expect(
-      vendingMachine.connect(addr1).purchaseSnack("invalid", 1, {
-        value: ethers.utils.parseEther("0.001"),
-      }),
+      vendingMachine
+        .connect(addr1)
+        .purchaseSnack("drinks", 1, ethers.utils.parseEther("0"), {
+          value: ethers.utils.parseEther("0.002"),
+        }),
     ).to.be.revertedWith("Invalid snack selected")
   })
 
@@ -55,9 +61,11 @@ describe("VendingMachine", function () {
       deployVendingMachineFixture,
     )
     await expect(
-      vendingMachine.connect(addr1).purchaseSnack("chips", 21, {
-        value: ethers.utils.parseEther("0.021"),
-      }),
+      vendingMachine
+        .connect(addr1)
+        .purchaseSnack("chips", 21, ethers.utils.parseEther("0.002"), {
+          value: ethers.utils.parseEther("0.042"),
+        }),
     ).to.be.revertedWith("We've sold out of this item!")
   })
 
@@ -92,7 +100,7 @@ describe("VendingMachine", function () {
       deployVendingMachineFixture,
     )
     const [quantity, price] = await vendingMachine.getSnack("chips")
-    console.log("Quantity: ", quantity.toString())
-    console.log("Price: ", ethers.utils.formatEther(price))
+    // console.log("Quantity: ", quantity.toString())
+    // console.log("Price: ", ethers.utils.formatEther(price))
   })
 })
