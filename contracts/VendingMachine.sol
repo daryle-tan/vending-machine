@@ -20,7 +20,7 @@ contract VendingMachine {
         uint256 quantity;
         uint256 price;
     }
-
+    // tracks snacks in the inventory
     mapping(string => Snacks) public inventory;
     // tracks balances of each caller that interacts with the contract
     mapping(address => uint256) public balances;

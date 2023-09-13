@@ -34,26 +34,29 @@ describe("VendingMachine", function () {
     const { vendingMachine, owner, addr1 } = await loadFixture(
       deployVendingMachineFixture,
     )
-    await expect(
-      vendingMachine
-        .connect(addr1)
-        .purchaseSnack("drinks", 1, ethers.utils.parseEther("0.002"), {
-          value: ethers.utils.parseEther("0.0005"),
-        }),
-    ).to.be.revertedWith("Declined! Insufficient payment amount.")
+    const insufficientFunds = await vendingMachine
+      .connect(addr1)
+      .purchaseSnack("drinks", 1, ethers.utils.parseEther("0.002"), {
+        value: ethers.utils.parseEther("0.000"),
+      })
+
+    expect(insufficientFunds).to.be.revertedWith(
+      "Declined! Insufficient payment amount.",
+    )
   })
 
   it("Should fail if invalid snack is selected", async function () {
-    const { vendingMachine, owner, addr1, addr2 } = await loadFixture(
+    const { vendingMachine, addr1 } = await loadFixture(
       deployVendingMachineFixture,
     )
-    await expect(
-      vendingMachine
-        .connect(addr1)
-        .purchaseSnack("drinks", 1, ethers.utils.parseEther("0"), {
-          value: ethers.utils.parseEther("0.002"),
-        }),
-    ).to.be.revertedWith("Invalid snack selected")
+    // Call purchaseSnack with a snack that does not exist in the inventory
+    const nonExistentSnack = await vendingMachine
+      .connect(addr1)
+      .purchaseSnack("invalidSnack", 1, ethers.utils.parseEther("0.002"), {
+        value: ethers.utils.parseEther("0.002"),
+      })
+
+    expect(nonExistentSnack).to.be.revertedWith("Invalid snack selected")
   })
 
   it("Should fail if trying to purchase more snacks than available", async function () {
