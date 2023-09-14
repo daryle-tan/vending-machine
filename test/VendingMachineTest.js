@@ -31,13 +31,13 @@ describe("VendingMachine", function () {
   })
 
   it("Should fail if insufficient funds are sent", async function () {
-    const { vendingMachine, owner, addr1 } = await loadFixture(
+    const { vendingMachine, addr1 } = await loadFixture(
       deployVendingMachineFixture,
     )
     const insufficientFunds = await vendingMachine
       .connect(addr1)
-      .purchaseSnack("drinks", 1, ethers.utils.parseEther("0.002"), {
-        value: ethers.utils.parseEther("0.000"),
+      .purchaseSnack("drinks", 1, ethers.utils.parseEther("0.001"), {
+        value: ethers.utils.parseEther("0.002"),
       })
 
     expect(insufficientFunds).to.be.revertedWith(
