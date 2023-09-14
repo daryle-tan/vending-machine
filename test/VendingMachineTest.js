@@ -65,8 +65,8 @@ describe("VendingMachine", function () {
     )
     const notEnoughSnacks = await vendingMachine
       .connect(addr1)
-      .purchaseSnack("drinks", 20, ethers.utils.parseEther("0.042"), {
-        value: ethers.utils.parseEther("0.042"),
+      .purchaseSnack("drinks", 20, ethers.utils.parseEther("0.04"), {
+        value: ethers.utils.parseEther("0.04"),
       })
     expect(notEnoughSnacks).to.not.be.revertedWith(
       "We've sold out of this item!",
