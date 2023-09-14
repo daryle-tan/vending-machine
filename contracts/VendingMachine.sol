@@ -61,10 +61,10 @@ contract VendingMachine {
     ) external payable {
         Snacks storage snack = inventory[_snack];
         // _snackPrice = snack.price; // Retrieve the price based on the snack name
-
+        require(_snackPrice == snack.price, "Invalid snack price");
         require(snack.price > 0 ether, "Invalid snack selected"); // Verify that the snack price exists
         require(
-            msg.value >= snack.price,
+            msg.value >= _snackPrice,
             "Declined! Insufficient payment amount."
         ); // Verify that the payment is sufficient
         require(_quantity > 0, "Choose quantity to purchase");

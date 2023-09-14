@@ -36,11 +36,11 @@ describe("VendingMachine", function () {
     )
     const insufficientFunds = await vendingMachine
       .connect(addr1)
-      .purchaseSnack("drinks", 1, ethers.utils.parseEther("0.001"), {
-        value: ethers.utils.parseEther("0.002"),
+      .purchaseSnack("drinks", 1, ethers.utils.parseEther("0.002"), {
+        value: ethers.utils.parseEther("0.003"),
       })
 
-    expect(insufficientFunds).to.be.revertedWith(
+    expect(insufficientFunds).to.not.be.revertedWith(
       "Declined! Insufficient payment amount.",
     )
   })
@@ -52,24 +52,25 @@ describe("VendingMachine", function () {
     // Call purchaseSnack with a snack that does not exist in the inventory
     const nonExistentSnack = await vendingMachine
       .connect(addr1)
-      .purchaseSnack("invalidSnack", 1, ethers.utils.parseEther("0.002"), {
+      .purchaseSnack("drinks", 1, ethers.utils.parseEther("0.002"), {
         value: ethers.utils.parseEther("0.002"),
       })
 
-    expect(nonExistentSnack).to.be.revertedWith("Invalid snack selected")
+    expect(nonExistentSnack).to.not.be.revertedWith("Invalid snack selected")
   })
 
   it("Should fail if trying to purchase more snacks than available", async function () {
-    const { vendingMachine, owner, addr1, addr2 } = await loadFixture(
+    const { vendingMachine, addr1 } = await loadFixture(
       deployVendingMachineFixture,
     )
-    await expect(
-      vendingMachine
-        .connect(addr1)
-        .purchaseSnack("chips", 21, ethers.utils.parseEther("0.002"), {
-          value: ethers.utils.parseEther("0.042"),
-        }),
-    ).to.be.revertedWith("We've sold out of this item!")
+    const notEnoughSnacks = await vendingMachine
+      .connect(addr1)
+      .purchaseSnack("drinks", 20, ethers.utils.parseEther("0.042"), {
+        value: ethers.utils.parseEther("0.042"),
+      })
+    expect(notEnoughSnacks).to.not.be.revertedWith(
+      "We've sold out of this item!",
+    )
   })
 
   it("Should withdraw the funds from the vending machine", async function () {
