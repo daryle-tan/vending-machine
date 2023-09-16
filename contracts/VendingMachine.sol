@@ -39,7 +39,7 @@ contract VendingMachine {
     }
 
     constructor() payable {
-        i_owner = msg.sender;
+        i_owner = payable(msg.sender);
         inventory["chips"] = Snacks(INITIAL_QUANTITY, 0.001 ether);
         snackNames.push("chips");
         inventory["drinks"] = Snacks(INITIAL_QUANTITY, 0.002 ether);
