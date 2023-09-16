@@ -50,34 +50,32 @@ describe("VendingMachine", function () {
       deployVendingMachineFixture,
     )
     // Call purchaseSnack with a snack that does not exist in the inventory
-    const nonExistentSnack = await vendingMachine
+    const existentSnack = await vendingMachine
       .connect(addr1)
       .purchaseSnack("drinks", 1, ethers.utils.parseEther("0.002"), {
         value: ethers.utils.parseEther("0.002"),
       })
 
-    expect(nonExistentSnack).to.not.be.revertedWith("Invalid snack selected")
+    expect(existentSnack).to.not.be.revertedWith("Invalid snack selected")
   })
 
   it("Should fail if trying to purchase more snacks than available", async function () {
     const { vendingMachine, addr1 } = await loadFixture(
       deployVendingMachineFixture,
     )
-    const notEnoughSnacks = await vendingMachine
+    const enoughSnacks = await vendingMachine
       .connect(addr1)
       .purchaseSnack("drinks", 20, ethers.utils.parseEther("0.04"), {
         value: ethers.utils.parseEther("0.04"),
       })
-    expect(notEnoughSnacks).to.not.be.revertedWith(
-      "We've sold out of this item!",
-    )
+    expect(enoughSnacks).to.not.be.revertedWith("We've sold out of this item!")
   })
 
   it("Should withdraw the funds from the vending machine", async function () {
     const { vendingMachine, owner } = await loadFixture(
       deployVendingMachineFixture,
     )
-    await expect(vendingMachine.connect(owner).withdraw())
+    expect(vendingMachine.connect(owner).withdraw())
   })
 
   it("Should return the balance of the vending machine", async function () {
