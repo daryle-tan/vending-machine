@@ -8,10 +8,10 @@ describe("VendingMachine", function () {
       "VendingMachine",
     )
     const vendingMachine = await VendingMachineFactory.deploy()
-    const [owner, addr1, addr2, ...addrs] = await ethers.getSigners()
+    const [owner, addr1] = await ethers.getSigners()
 
     await vendingMachine.deployed()
-    return { vendingMachine, owner, addr1, addr2, ...addrs }
+    return { vendingMachine, owner, addr1 }
   }
 
   it("Should reduce quantity of the snack and increment the balance of contract", async function () {
@@ -74,14 +74,14 @@ describe("VendingMachine", function () {
   })
 
   it("Should withdraw the funds from the vending machine", async function () {
-    const { vendingMachine, owner, addr1, addr2, ...addrs } = await loadFixture(
+    const { vendingMachine, owner } = await loadFixture(
       deployVendingMachineFixture,
     )
     await expect(vendingMachine.connect(owner).withdraw())
   })
 
   it("Should return the balance of the vending machine", async function () {
-    const { vendingMachine, owner, addr1, addr2 } = await loadFixture(
+    const { vendingMachine, owner } = await loadFixture(
       deployVendingMachineFixture,
     )
     const contractBalanceBefore = await vendingMachine.getBalance()
@@ -100,11 +100,11 @@ describe("VendingMachine", function () {
   })
 
   it("Should return snack quantity and price", async function () {
-    const { vendingMachine, owner, addr1, addr2 } = await loadFixture(
-      deployVendingMachineFixture,
-    )
+    const { vendingMachine } = await loadFixture(deployVendingMachineFixture)
     const [quantity, price] = await vendingMachine.getSnack("chips")
     // console.log("Quantity: ", quantity.toString())
     // console.log("Price: ", ethers.utils.formatEther(price))
+    expect(quantity).to.equal(20)
+    expect(price).to.equal(ethers.utils.parseEther("0.001"))
   })
 })
