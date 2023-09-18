@@ -92,7 +92,7 @@ contract VendingMachine {
             _quantity,
             _snackPrice
         );
-        console.log("line 95", _snack, snack.quantity, snack.price);
+        // console.log("line 95", _snack, snack.quantity, snack.price);
     }
 
     // Function to withdraw funds
