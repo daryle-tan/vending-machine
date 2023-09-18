@@ -7,6 +7,7 @@ contract VendingMachine {
     /* Errors */
     error VendingMachine__OverStock(string message);
     error VendingMachine__TransferFailed();
+    error VendingMachine__InvalidSnack(string invalidSnack);
     /* State Variables */
     // use address(this).balance to find the contract's balance
     uint256 public constant INITIAL_QUANTITY = 20;
@@ -72,6 +73,14 @@ contract VendingMachine {
         ); // Verify that the payment is sufficient
         require(_quantity > 0, "Choose quantity to purchase");
         require(snack.quantity >= _quantity, "We've sold out of this item!"); // Verify the quantity of snacks in the vending machine
+        if (
+            keccak256(bytes(_snack)) != keccak256(bytes(snackNames[0])) &&
+            keccak256(bytes(_snack)) != keccak256(bytes(snackNames[1])) &&
+            keccak256(bytes(_snack)) != keccak256(bytes(snackNames[2]))
+        ) {
+            revert VendingMachine__InvalidSnack("Invalid snack selected");
+        }
+
         snack.quantity -= _quantity;
 
         balances[msg.sender] += _snackPrice; // accounts for the amount spent from customer
@@ -83,7 +92,7 @@ contract VendingMachine {
             _quantity,
             _snackPrice
         );
-        console.log("line 84", _snack, snack.quantity, snack.price);
+        console.log("line 95", _snack, snack.quantity, snack.price);
     }
 
     // Function to withdraw funds
