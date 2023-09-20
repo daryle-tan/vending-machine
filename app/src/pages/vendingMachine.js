@@ -1,5 +1,7 @@
 import React from "react"
 import styles from "../styles/VendingMachine.module.css"
+import Image from "next/image"
+
 function VendingMachine() {
   return (
     <>
@@ -7,19 +9,43 @@ function VendingMachine() {
         <div className={styles.mainVending}>
           <div className={styles.snackContainer}>
             <div className={styles.snackLabel}>A</div>
-            <div className={styles.snackItem}>Chips</div>
+            <div className={styles.snackItem}>
+              <Image
+                src="/hot-cheetos.webp"
+                width={100}
+                height={100}
+                sizes={"100vw"}
+                className={styles.snackPic}
+              />
+            </div>
             <div className={styles.snackPrice}>0.001 ETH</div>
             <div className={styles.snackQty}>QTY: 20</div>
           </div>
           <div className={styles.snackContainer}>
             <div className={styles.snackLabel}>B</div>
-            <div className={styles.snackItem}>Drinks</div>
+            <div className={styles.snackItem}>
+              <Image
+                src="/coconut-water.jpeg"
+                width={100}
+                height={100}
+                sizes={"100vw"}
+                className={styles.snackPic}
+              />
+            </div>
             <div className={styles.snackPrice}>0.002 ETH</div>
             <div className={styles.snackQty}>QTY: 20</div>
           </div>
           <div className={styles.snackContainer}>
             <div className={styles.snackLabel}>C</div>
-            <div className={styles.snackItem}>Cookies</div>
+            <div className={styles.snackItem}>
+              <Image
+                src="/cookies.jpeg"
+                width={100}
+                height={100}
+                sizes={"100vw"}
+                className={styles.snackPic}
+              />
+            </div>
             <div className={styles.snackPrice}>0.001 ETH</div>
             <div className={styles.snackQty}>QTY: 20</div>
           </div>
