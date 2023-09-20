@@ -39,6 +39,7 @@ export default function Home() {
 
         <div className={styles.grid}>
           <Restock />
+          <WithdrawFunds />
         </div>
       </main>
     </>
