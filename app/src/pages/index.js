@@ -4,6 +4,9 @@ import { Inter } from "next/font/google"
 import styles from "@/styles/Home.module.css"
 import VendingMachine from "./VendingMachine"
 import Balance from "./Balance"
+import Restock from "./Restock"
+import WithdrawFunds from "./WithdrawFunds"
+
 const inter = Inter({ subsets: ["latin"] })
 
 export default function Home() {
@@ -34,7 +37,9 @@ export default function Home() {
           <VendingMachine />
         </div>
 
-        <div className={styles.grid}></div>
+        <div className={styles.grid}>
+          <Restock />
+        </div>
       </main>
     </>
   )
