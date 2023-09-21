@@ -20,6 +20,7 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <div className={styles.description}>
+          <button className={styles.connectButton}>Connect Wallet</button>
           <Balance />
           <div>By Daryle Tan</div>
         </div>
