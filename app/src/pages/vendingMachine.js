@@ -52,25 +52,35 @@ function VendingMachine() {
         </div>
         <div className={styles.sideVending}>
           <div className={styles.displayScreen}>
-            <div className={styles.totalAmount}>0.001 ETH</div>
-            <div className={styles.totalQty}>1</div>
+            <div className={styles.totalQty}>
+              <span className={styles.displaySpan}>Total Qty: </span>1
+            </div>
+            <div className={styles.totalAmount}>
+              <span className={styles.displaySpan}>Total Price: </span>0.001 ETH
+            </div>
           </div>
 
           <div className={styles.controlQty}>
-            <button className={styles.decrement}>-</button>
-            <div className={styles.controlLabel}>A</div>
-            <button className={styles.increment}>+</button>
-            <button className={styles.decrement}>-</button>
-            <div className={styles.controlLabel}>B</div>
-            <button className={styles.increment}>+</button>
-            <button className={styles.decrement}>-</button>
-            <div className={styles.controlLabel}>C</div>
-            <button className={styles.increment}>+</button>
+            <div className={styles.controlContainer}>
+              <button className={styles.decrement}>-</button>
+              <div className={styles.controlLabel}>A</div>
+              <button className={styles.increment}>+</button>
+            </div>
+            <div className={styles.controlContainer}>
+              <button className={styles.decrement}>-</button>
+              <div className={styles.controlLabel}>B</div>
+              <button className={styles.increment}>+</button>
+            </div>
+            <div className={styles.controlContainer}>
+              <button className={styles.decrement}>-</button>
+              <div className={styles.controlLabel}>C</div>
+              <button className={styles.increment}>+</button>
+            </div>
           </div>
 
-          <div className={styles.Pay}>
-            <button className={styles.payButton}>Pay</button>
-          </div>
+          {/* <div className={styles.Pay}> */}
+          <button className={styles.payButton}>Pay</button>
+          {/* </div> */}
         </div>
       </div>
     </>
