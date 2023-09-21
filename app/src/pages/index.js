@@ -20,21 +20,12 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <div className={styles.description}>
-          <button className={styles.connectButton}>Connect Wallet</button>
-          <Balance />
           <div>By Daryle Tan</div>
+          <Balance />
+          <button className={styles.connectButton}>Connect Wallet</button>
         </div>
 
         <div className={styles.center}>
-          <div className={styles.thirteen}>
-            <Image
-              src="/thirteen.svg"
-              alt="13"
-              width={40}
-              height={31}
-              priority
-            />
-          </div>
           <VendingMachine />
         </div>
 

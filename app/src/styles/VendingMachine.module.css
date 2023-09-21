@@ -1,3 +1,43 @@
 .vendingContainer {
-  border: solid yellow 1px;
+  display: flex;
+  flex-direction: row;
+  border: solid teal 2px;
+  transform: translateZ(0);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: 0px 2px 8px -1px #0000001a;
+  width: 50vw;
+  justify-content: space-around;
+  padding: 15px;
+}
+
+.mainVending {
+  display: flex;
+  justify-content: space-around;
+  width: 40vw;
+  border: solid teal 2px;
+  padding: 10px;
+}
+
+.sideVending {
+  border: solid teal 2px;
+  padding: 10px;
+}
+
+.snackContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin: 5px;
+}
+
+.snackLabel {
+  border: solid teal 2px;
+  padding: 3px;
+}
+
+.snackItem {
+  margin-top: 5px;
+  background-color: transparent;
 }
