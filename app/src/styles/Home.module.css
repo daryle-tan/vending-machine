@@ -7,6 +7,16 @@
   min-height: 100vh;
 }
 
+.connectButton {
+  width: 16%;
+  height: 5vh;
+  border-radius: 12px;
+  background-color: teal;
+  color: whitesmoke;
+  font-weight: bold;
+  cursor: pointer;
+}
+
 .description {
   display: inherit;
   justify-content: inherit;
@@ -42,7 +52,7 @@
 .grid {
   display: flex;
   flex-direction: row;
-  width: 50vw;
+  width: 55vw;
   justify-content: space-around;
   border: solid teal 2px;
   padding: 5px;
