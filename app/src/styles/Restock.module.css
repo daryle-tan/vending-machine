@@ -1,3 +1,22 @@
 .RestockContainer {
-  border: solid yellow 1px;
+  border: solid teal 2px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 60%;
+  padding: 5px;
+}
+
+.inventoryContainer {
+  border: solid teal 2px;
+  display: flex;
+  flex-direction: column;
+}
+
+.restockButton {
+  width: 50%;
+  background-color: teal;
+  color: whitesmoke;
+  font-weight: bold;
+  cursor: pointer;
 }

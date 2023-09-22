@@ -1,3 +1,15 @@
 .WithdrawContainer {
-  border: solid yellow 1px;
+  border: solid teal 2px;
+  width: 25%;
+  padding: 5px;
+}
+
+.withdrawButton {
+  padding: 5px;
+  width: 100%;
+  height: 100%;
+  background-color: teal;
+  color: whitesmoke;
+  font-weight: bold;
+  cursor: pointer;
 }

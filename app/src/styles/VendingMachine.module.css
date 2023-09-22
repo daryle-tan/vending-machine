@@ -49,7 +49,7 @@
   border: solid teal 2px;
   display: flex;
   flex-direction: column;
-  padding: 2px;
+  padding: 5px;
   /* margin-bottom: 5px; */
 }
 
@@ -64,7 +64,7 @@
 .controlContainer {
   display: flex;
   justify-content: space-evenly;
-  padding: 2px;
+  padding: 5px;
   width: 80%;
 }
 
@@ -78,9 +78,9 @@
 .payButton {
   display: flex;
   justify-content: center;
-  align-items: center;
   width: 100%;
   background-color: teal;
   color: whitesmoke;
   font-weight: bold;
+  cursor: pointer;
 }
