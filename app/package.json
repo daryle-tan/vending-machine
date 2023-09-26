@@ -9,12 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@rainbow-me/rainbowkit": "^1.0.11",
+    "@web3-onboard/react": "^2.8.13",
     "alchemy-sdk": "^2.10.1",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
     "next": "13.4.12",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-scripts": "^4.0.3"
+    "react-scripts": "^4.0.3",
+    "viem": "^1.12.2",
+    "wagmi": "^1.4.2"
   }
 }

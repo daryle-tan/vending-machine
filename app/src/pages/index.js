@@ -1,18 +1,20 @@
 import Head from "next/head"
-import Image from "next/image"
-import { Inter } from "next/font/google"
 import styles from "@/styles/Home.module.css"
 import VendingMachine from "./VendingMachine"
 import Balance from "./Balance"
 import Restock from "./Restock"
 import WithdrawFunds from "./WithdrawFunds"
-import { Alchemy, Network, Utils } from "alchemy-sdk"
 import { useState, useEffect } from "react"
 import { ethers } from "ethers"
-
-const inter = Inter({ subsets: ["latin"] })
+const { Network, Alchemy, Utils } = require("alchemy-sdk")
+import { ConnectButton } from "@rainbow-me/rainbowkit"
 
 export default function Home() {
+  const [userAddress, setUserAddress] = useState("")
+  const [results, setResults] = useState(false)
+  const [hasQueried, setHasQueried] = useState(false)
+  const [account, setAccount] = useState(null)
+
   return (
     <>
       <Head>
@@ -25,7 +27,9 @@ export default function Home() {
         <div className={styles.description}>
           <div>By Daryle Tan</div>
           <Balance />
-          <button className={styles.connectButton}>Connect Wallet</button>
+          {/* <div className={styles.connectWallet}> */}
+          <ConnectButton className={styles.connectWallet} />
+          {/* </div> */}
         </div>
 
         <div className={styles.center}>
