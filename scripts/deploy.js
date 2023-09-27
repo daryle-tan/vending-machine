@@ -2,7 +2,7 @@ const ethers = require("hardhat")
 require("dotenv").config()
 
 async function main() {
-  const VendingMachine = await ethers.getContractFactory("VendingMachine")
+  const VendingMachine = await hre.ethers.getContractFactory("VendingMachine")
   console.log("Deploying contract...")
 
   const vendingMachine = await VendingMachine.deploy()

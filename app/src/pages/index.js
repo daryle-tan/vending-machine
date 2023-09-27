@@ -27,9 +27,7 @@ export default function Home() {
         <div className={styles.description}>
           <div>By Daryle Tan</div>
           <Balance />
-          {/* <div className={styles.connectWallet}> */}
           <ConnectButton className={styles.connectWallet} />
-          {/* </div> */}
         </div>
 
         <div className={styles.center}>
