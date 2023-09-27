@@ -40,10 +40,12 @@ B. There will be a user interface that allows the customer to interact with the 
 
     3. There will be a UI for owner to view the balance, to restock, and to withdraw funds from the vending machine.
 
-
-
 ## Getting Started
 
 run 'npx hardhat'
 
 In a separate terminal and ensure that you are in the app directory run 'npm run dev' to start next.js
+
+## Contract Address
+
+0x87c8e40838ae5d9d86912F4A6Fbb622BBacfa72C
