@@ -6,16 +6,15 @@ function Balance({ state }) {
   const [balance, setBalance] = useState("")
   const getBalance = async () => {
     try {
-      const { contract } = state
-      if (contract) {
+      if (state) {
         // Call the getBalance function of the VendingMachine contract
-        const contractBalance = await contract.contract.getBalance()
+        const contractBalance = await state.contract.getBalance()
         // Format the balance value as a string
-        const formattedBalance = ethers.utils.formatEther(contractBalance)
+        const formattedBalance = await ethers.utils.formatEther(contractBalance)
         // Update the balance in the UI
         // const contractSpan = document.querySelector(".spanBalance")
         // contractSpan.textContent = formattedBalance
-        setBalance(contractBalance)
+        setBalance(formattedBalance)
         console.log("balance", balance)
       }
     } catch (error) {
@@ -32,7 +31,7 @@ function Balance({ state }) {
       <div className={styles.BalanceContainer}>
         <header className={styles.headerBalance}>
           Vending Machine Balance:{" "}
-          <span className={styles.spanBalance}>ETH</span>
+          <span className={styles.spanBalance}>{balance} ETH</span>
         </header>
       </div>
     </>
