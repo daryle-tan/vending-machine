@@ -10,10 +10,8 @@ function Balance({ state }) {
         // Call the getBalance function of the VendingMachine contract
         const contractBalance = await state.contract.getBalance()
         // Format the balance value as a string
-        const formattedBalance = await ethers.utils.formatEther(contractBalance)
-        // Update the balance in the UI
-        // const contractSpan = document.querySelector(".spanBalance")
-        // contractSpan.textContent = formattedBalance
+        const formattedBalance = ethers.utils.formatEther(contractBalance)
+        // Update the balance state
         setBalance(formattedBalance)
         console.log("balance", balance)
       }
@@ -24,7 +22,7 @@ function Balance({ state }) {
 
   useEffect(() => {
     getBalance()
-  }, [balance])
+  }, [state])
 
   return (
     <>
