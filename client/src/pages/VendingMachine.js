@@ -2,7 +2,7 @@ import React from "react"
 import styles from "../styles/VendingMachine.module.css"
 import Image from "next/image"
 
-function VendingMachine() {
+function VendingMachine({ state }) {
   return (
     <>
       <div className={styles.vendingContainer}>

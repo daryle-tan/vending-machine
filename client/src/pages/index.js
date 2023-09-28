@@ -47,6 +47,7 @@ export default function Home() {
       }
     }
     template()
+    console.log("state", state.contract)
   }, [])
 
   return (
@@ -60,17 +61,17 @@ export default function Home() {
       <main className={styles.main}>
         <div className={styles.description}>
           <div>By Daryle Tan</div>
-          <Balance />
+          <Balance state={state} />
           <ConnectButton className={styles.connectWallet} />
         </div>
 
         <div className={styles.center}>
-          <VendingMachine />
+          <VendingMachine state={state} />
         </div>
 
         <div className={styles.grid}>
-          <Restock />
-          <WithdrawFunds />
+          <Restock state={state} />
+          <WithdrawFunds state={state} />
         </div>
       </main>
     </>

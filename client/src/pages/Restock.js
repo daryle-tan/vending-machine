@@ -1,6 +1,6 @@
 import styles from "../styles/Restock.module.css"
 
-function Restock() {
+function Restock({ state }) {
   return (
     <>
       <div className={styles.RestockContainer}>

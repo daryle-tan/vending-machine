@@ -1,6 +1,6 @@
 import styles from "../styles/WithdrawFunds.module.css"
 
-function WithdrawFunds() {
+function WithdrawFunds({ state }) {
   return (
     <>
       <div className={styles.WithdrawContainer}>
