@@ -12,6 +12,7 @@ function Restock({ state }) {
         const [quantity, price] = await contract.getSnack(snackName)
         // Convert BigNumber to number
         const quantityNum = parseInt(quantity._hex, 16)
+
         // Update the snack quantities state
         setSnackQuantities((prevQuantities) => ({
           ...prevQuantities,

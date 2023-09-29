@@ -1,8 +1,44 @@
-import React from "react"
+import { useState, useEffect } from "react"
 import styles from "../styles/VendingMachine.module.css"
 import Image from "next/image"
+const { ethers } = require("ethers")
 
 function VendingMachine({ state }) {
+  const [snackQuantities, setSnackQuantities] = useState({})
+  const [snackPrices, setSnackPrices] = useState({})
+
+  const getSnackInfoVM = async (snackName) => {
+    try {
+      const { contract } = state
+      if (contract) {
+        // Check if contract exists
+        const [quantity, price] = await contract.getSnack(snackName)
+        // Convert BigNumber to number
+        const quantityNum = parseInt(quantity._hex, 16)
+        const ethPriceWei = price.toString()
+        // Convert wei to ETH using ethers.js
+        const ethPrice = ethers.utils.formatEther(ethPriceWei)
+        // Update the snack quantities state
+        setSnackQuantities((prevQuantities) => ({
+          ...prevQuantities,
+          [snackName]: quantityNum,
+        }))
+        // Update the snack prices state
+        setSnackPrices((prevPrices) => ({
+          ...prevPrices,
+          [snackName]: ethPrice,
+        }))
+      }
+    } catch (error) {
+      console.error(`Error getting ${snackName} info:`, error)
+    }
+  }
+
+  useEffect(() => {
+    const snackNames = ["chips", "drinks", "cookies"]
+    snackNames.forEach(getSnackInfoVM)
+  }, [state.contract])
+
   return (
     <>
       <div className={styles.vendingContainer}>
@@ -18,8 +54,10 @@ function VendingMachine({ state }) {
                 className={styles.snackPic}
               />
             </div>
-            <div className={styles.snackPrice}>0.001 ETH</div>
-            <div className={styles.snackQty}>QTY: 20</div>
+            <div className={styles.snackPrice}>{snackPrices["chips"]} ETH</div>
+            <div className={styles.snackQty}>
+              QTY: {snackQuantities["chips"]}
+            </div>
           </div>
           <div className={styles.snackContainer}>
             <div className={styles.snackLabel}>B</div>
@@ -32,8 +70,10 @@ function VendingMachine({ state }) {
                 className={styles.snackPic}
               />
             </div>
-            <div className={styles.snackPrice}>0.002 ETH</div>
-            <div className={styles.snackQty}>QTY: 20</div>
+            <div className={styles.snackPrice}>{snackPrices["drinks"]} ETH</div>
+            <div className={styles.snackQty}>
+              QTY: {snackQuantities["drinks"]}
+            </div>
           </div>
           <div className={styles.snackContainer}>
             <div className={styles.snackLabel}>C</div>
@@ -46,8 +86,12 @@ function VendingMachine({ state }) {
                 className={styles.snackPic}
               />
             </div>
-            <div className={styles.snackPrice}>0.001 ETH</div>
-            <div className={styles.snackQty}>QTY: 20</div>
+            <div className={styles.snackPrice}>
+              {snackPrices["cookies"]} ETH
+            </div>
+            <div className={styles.snackQty}>
+              QTY: {snackQuantities["cookies"]}
+            </div>
           </div>
         </div>
         <div className={styles.sideVending}>
