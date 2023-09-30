@@ -6,14 +6,6 @@ const { ethers } = require("ethers")
 function VendingMachine({ state }) {
   const [snackQuantities, setSnackQuantities] = useState({})
   const [snackPrices, setSnackPrices] = useState({})
-  // const [totalQuantity, setTotalQuantity] = useState(0)
-  // const [totalPrice, setTotalPrice] = useState(0)
-  // const [totalQuantityChips, setTotalQuantityChips] = useState(0)
-  // const [totalPriceChips, setTotalPriceChips] = useState(0)
-  // const [totalQuantityDrinks, setTotalQuantityDrinks] = useState(0)
-  // const [totalPriceDrinks, setTotalPriceDrinks] = useState(0)
-  // const [totalQuantityCookies, setTotalQuantityCookies] = useState(0)
-  // const [totalPriceCookies, setTotalPriceCookies] = useState(0)
   const [totals, setTotals] = useState({
     chips: { quantity: 0, price: 0 },
     drinks: { quantity: 0, price: 0 },
@@ -166,12 +158,27 @@ function VendingMachine({ state }) {
         <div className={styles.sideVending}>
           <div className={styles.displayScreen}>
             <div className={styles.totalQty}>
+              <span className={styles.displaySpan}>
+                Chips Qty: {totals["chips"].quantity}
+              </span>
+            </div>
+            <div className={styles.totalQty}>
+              <span className={styles.displaySpan}>
+                Drinks Qty: {totals["drinks"].quantity}
+              </span>
+            </div>
+            <div className={styles.totalQty}>
+              <span className={styles.displaySpan}>
+                Cookies Qty: {totals["cookies"].quantity}
+              </span>
+            </div>
+            <div className={styles.totalQty}>
               <span className={styles.displaySpan}>Total Qty: </span>
               {getTotalQuantity()}
             </div>
             <div className={styles.totalAmount}>
               <span className={styles.displaySpan}>Total Price: </span>
-              {getTotalPrice()} ETH
+              {getTotalPrice() == 0 ? 0 : getTotalPrice()} ETH
             </div>
           </div>
 
