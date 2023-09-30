@@ -15,6 +15,9 @@ module.exports = {
       accounts: [process.env.PRIVATE_KEY],
     },
   },
+  etherscan: {
+    apiKey: process.env.ETHERSCAN_API_KEY,
+  },
 }
 
 // to deploy npx hardhat run scripts/deploy.js --network <network name>

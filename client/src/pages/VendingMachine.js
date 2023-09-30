@@ -100,6 +100,47 @@ function VendingMachine({ state }) {
     return totalPrice.toFixed(3)
   }
 
+  const purchaseSnacksFn = async () => {
+    const { contract, signer } = state
+    const snackNames = ["chips", "drinks", "cookies"]
+
+    for (const snackName of snackNames) {
+      const { quantity, price } = totals[snackName]
+
+      // if (quantity > 0) {
+      try {
+        const snackPrice = ethers.utils.parseEther("0.001") // Convert price to wei
+
+        const gasEstimate = await contract.estimateGas.purchaseSnack(
+          "chips",
+          1,
+          snackPrice,
+          {
+            value: snackPrice,
+          },
+        )
+        console.log("Gas Estimate:", gasEstimate.toString())
+
+        // Send a transaction to the contract's purchaseSnack function
+        // const tx = await contract.purchaseSnack(
+        //   snackName,
+        //   quantity,
+        //   snackPrice,
+        //   {
+        //     value: snackPrice, // Send the correct amount of Ether
+        //   },
+        // )
+
+        // // Wait for the transaction to be mined
+        // await tx.wait()
+
+        console.log(`Purchased ${quantity} ${snackName} for ${price} ETH`)
+      } catch (error) {
+        console.error(`Error purchasing ${snackName}:`, error)
+      }
+      // }
+    }
+  }
   return (
     <>
       <div className={styles.vendingContainer}>
@@ -231,7 +272,9 @@ function VendingMachine({ state }) {
           </div>
 
           {/* <div className={styles.Pay}> */}
-          <button className={styles.payButton}>Pay</button>
+          <button className={styles.payButton} onClick={purchaseSnacksFn}>
+            Pay
+          </button>
           {/* </div> */}
         </div>
       </div>

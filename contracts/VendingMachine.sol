@@ -123,7 +123,6 @@ contract VendingMachine {
 
     // Function to check the balance of the vending machine
     function getBalance() external view returns (uint256) {
-        console.log("line 115", address(this).balance);
         return address(this).balance;
     }
 
