@@ -11,6 +11,7 @@ function VendingMachine({ state }) {
     drinks: { quantity: 0, price: 0 },
     cookies: { quantity: 0, price: 0 },
   })
+  const [isLoading, setIsLoading] = useState(false)
 
   const getSnackInfoVM = async (snackName) => {
     try {
@@ -101,46 +102,45 @@ function VendingMachine({ state }) {
   }
 
   const purchaseSnacksFn = async () => {
-    const { contract, signer } = state
+    setIsLoading(true) // Set loading to true when initiating the transaction
+    const { contract } = state
     const snackNames = ["chips", "drinks", "cookies"]
 
     for (const snackName of snackNames) {
       const { quantity, price } = totals[snackName]
-
-      // if (quantity > 0) {
-      try {
-        const snackPrice = ethers.utils.parseEther("0.001") // Convert price to wei
-
-        const gasEstimate = await contract.estimateGas.purchaseSnack(
-          "chips",
-          1,
-          snackPrice,
-          {
-            value: snackPrice,
-          },
-        )
-        console.log("Gas Estimate:", gasEstimate.toString())
-
-        // Send a transaction to the contract's purchaseSnack function
-        // const tx = await contract.purchaseSnack(
-        //   snackName,
-        //   quantity,
-        //   snackPrice,
-        //   {
-        //     value: snackPrice, // Send the correct amount of Ether
-        //   },
-        // )
-
-        // // Wait for the transaction to be mined
-        // await tx.wait()
-
-        console.log(`Purchased ${quantity} ${snackName} for ${price} ETH`)
-      } catch (error) {
-        console.error(`Error purchasing ${snackName}:`, error)
+      if (quantity > 0) {
+        try {
+          const snackPrice = ethers.utils.parseEther(price.toString()) // Convert price to wei
+          // Send a transaction to the contract's purchaseSnack function
+          const tx = await contract.purchaseSnack(
+            snackName,
+            quantity,
+            snackPrice,
+            {
+              value: snackPrice, // Send the correct amount of Ether
+            },
+          )
+          // Wait for the transaction to be mined
+          await tx.wait()
+          // Refresh the data shown on the UI
+          await getSnackInfoVM(snackName)
+          // Reset the quantity for the current snack to 0
+          setTotals((prevTotals) => ({
+            ...prevTotals,
+            [snackName]: { quantity: 0, price: 0 },
+          }))
+          console.log(
+            `Purchased ${totals[snackName].quantity} ${snackName} for ${snackPrice} ETH`,
+          )
+        } catch (error) {
+          console.error(`Error purchasing chips:`, error, price)
+          alert("Please select snack choices")
+        }
       }
-      // }
     }
+    setIsLoading(false)
   }
+
   return (
     <>
       <div className={styles.vendingContainer}>
@@ -271,11 +271,13 @@ function VendingMachine({ state }) {
             </div>
           </div>
 
-          {/* <div className={styles.Pay}> */}
-          <button className={styles.payButton} onClick={purchaseSnacksFn}>
-            Pay
-          </button>
-          {/* </div> */}
+          {isLoading ? (
+            <div className={styles.loadingIndicator}>Loading...</div>
+          ) : (
+            <button className={styles.payButton} onClick={purchaseSnacksFn}>
+              Pay
+            </button>
+          )}
         </div>
       </div>
     </>
