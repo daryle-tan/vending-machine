@@ -6,14 +6,19 @@ const { ethers } = require("ethers")
 function VendingMachine({ state }) {
   const [snackQuantities, setSnackQuantities] = useState({})
   const [snackPrices, setSnackPrices] = useState({})
-  const [totalQuantity, setTotalQuantity] = useState(0)
-  const [totalPrice, setTotalPrice] = useState(0)
-  const [totalQuantityChips, setTotalQuantityChips] = useState(0)
-  const [totalPriceChips, setTotalPriceChips] = useState(0)
-  const [totalQuantityDrinks, setTotalQuantityDrinks] = useState(0)
-  const [totalPriceDrinks, setTotalPriceDrinks] = useState(0)
-  const [totalQuantityCookies, setTotalQuantityCookies] = useState(0)
-  const [totalPriceCookies, setTotalPriceCookies] = useState(0)
+  // const [totalQuantity, setTotalQuantity] = useState(0)
+  // const [totalPrice, setTotalPrice] = useState(0)
+  // const [totalQuantityChips, setTotalQuantityChips] = useState(0)
+  // const [totalPriceChips, setTotalPriceChips] = useState(0)
+  // const [totalQuantityDrinks, setTotalQuantityDrinks] = useState(0)
+  // const [totalPriceDrinks, setTotalPriceDrinks] = useState(0)
+  // const [totalQuantityCookies, setTotalQuantityCookies] = useState(0)
+  // const [totalPriceCookies, setTotalPriceCookies] = useState(0)
+  const [totals, setTotals] = useState({
+    chips: { quantity: 0, price: 0 },
+    drinks: { quantity: 0, price: 0 },
+    cookies: { quantity: 0, price: 0 },
+  })
 
   const getSnackInfoVM = async (snackName) => {
     try {
@@ -49,7 +54,7 @@ function VendingMachine({ state }) {
   }, [state.contract])
 
   const addSnack = async (snackName) => {
-    if (totalQuantity < 20 && totalQuantity >= 0) {
+    if (totals[snackName].quantity < 20 && totals[snackName].quantity >= 0) {
       const { contract } = state
       const [totalQ, totalP] = await contract.getSnack(snackName)
       // Convert BigNumber to number
@@ -57,40 +62,19 @@ function VendingMachine({ state }) {
       const ethPriceWei = await totalP.toString()
       // Convert wei to ETH using ethers.js
       const ethPrice = ethers.utils.formatEther(ethPriceWei)
-      let newQuantity
-      let total
-      if (snackName === "chips") {
-        newQuantity = totalQuantity + 1
-        // setTotalQuantityChips(newQuantity)
-        total = newQuantity * ethPrice
-        // setTotalPriceChips(total)
-        setTotalQuantity(newQuantity)
-        setTotalPrice(total)
-      } else if (snackName === "drinks") {
-        newQuantity = totalQuantity + 1
-        // setTotalQuantityDrinks(newQuantity)
-        total = newQuantity * ethPrice
-        // setTotalPriceDrinks(total)
-        setTotalQuantity(newQuantity)
-        setTotalPrice(total)
-      } else if (snackName === "cookies") {
-        newQuantity = totalQuantity + 1
-        // setTotalQuantityCookies(newQuantity)
-        total = newQuantity * ethPrice
-        // setTotalPriceCookies(total)
-        setTotalQuantity(newQuantity)
-        setTotalPrice(total)
-      }
 
-      // setTotalQuantity(newQuantity)
-      // setTotalPrice(total)
-      console.log("totalQuantity", totalQuantity)
-      console.log("total", total)
+      const newQuantity = totals[snackName].quantity + 1
+      const newPrice = newQuantity * ethPrice
+
+      setTotals((prevTotals) => ({
+        ...prevTotals,
+        [snackName]: { quantity: newQuantity, price: newPrice },
+      }))
     }
   }
 
   const removeSnack = async (snackName) => {
-    if (totalQuantity <= 20 && totalQuantity >= 0) {
+    if (totals[snackName].quantity <= 20 && totals[snackName].quantity > 0) {
       const { contract } = state
       const [totalQ, totalP] = await contract.getSnack(snackName)
       // Convert BigNumber to number
@@ -99,14 +83,29 @@ function VendingMachine({ state }) {
       // Convert wei to ETH using ethers.js
       const ethPrice = ethers.utils.formatEther(ethPriceWei)
 
-      // setTotalQuantity((prevQuantity) => prevQuantity + 1)
-      let newQuantity = totalQuantity - 1
-      setTotalQuantity(newQuantity)
-      let total = newQuantity * ethPrice
-      setTotalPrice(total)
-      console.log("totalQuantity", totalQuantity)
-      console.log("total", total)
+      const newQuantity = totals[snackName].quantity - 1
+      const newPrice = newQuantity * ethPrice
+
+      setTotals((prevTotals) => ({
+        ...prevTotals,
+        [snackName]: { quantity: newQuantity, price: newPrice },
+      }))
     }
+  }
+
+  const getTotalQuantity = () => {
+    return Object.values(totals).reduce(
+      (total, snack) => total + snack.quantity,
+      0,
+    )
+  }
+
+  const getTotalPrice = () => {
+    const totalPrice = Object.values(totals).reduce(
+      (total, snack) => total + snack.price,
+      0,
+    )
+    return totalPrice.toFixed(3)
   }
 
   return (
@@ -168,11 +167,11 @@ function VendingMachine({ state }) {
           <div className={styles.displayScreen}>
             <div className={styles.totalQty}>
               <span className={styles.displaySpan}>Total Qty: </span>
-              {totalQuantity}
+              {getTotalQuantity()}
             </div>
             <div className={styles.totalAmount}>
               <span className={styles.displaySpan}>Total Price: </span>
-              {totalPrice} ETH
+              {getTotalPrice()} ETH
             </div>
           </div>
 
