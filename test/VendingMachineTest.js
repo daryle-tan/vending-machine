@@ -105,4 +105,51 @@ describe("VendingMachine", function () {
     expect(quantity).to.equal(20)
     expect(price).to.equal(ethers.utils.parseEther("0.001"))
   })
+
+  it("Should restock snacks successfully", async function () {
+    // Load the contract using a fixture
+    const { vendingMachine, owner, addr1 } = await loadFixture(
+      deployVendingMachineFixture,
+    )
+
+    // calls the purchaseSnack function to reduce the quantity of each snack
+    const snack1 = await vendingMachine
+      .connect(addr1)
+      .purchaseSnack("chips", 1, ethers.utils.parseEther("0.001"), {
+        value: ethers.utils.parseEther("0.001"),
+      })
+
+    const snack2 = await vendingMachine
+      .connect(addr1)
+      .purchaseSnack("drinks", 1, ethers.utils.parseEther("0.002"), {
+        value: ethers.utils.parseEther("0.002"),
+      })
+
+    const snack3 = await vendingMachine
+      .connect(addr1)
+      .purchaseSnack("cookies", 1, ethers.utils.parseEther("0.001"), {
+        value: ethers.utils.parseEther("0.001"),
+      })
+
+    // Verify the updated quantities of snacks after restocking
+    const [chipsQuantity] = await vendingMachine.getSnack("chips")
+    const [drinksQuantity] = await vendingMachine.getSnack("drinks")
+    const [cookiesQuantity] = await vendingMachine.getSnack("cookies")
+    console.log(chipsQuantity)
+    expect(await chipsQuantity).to.be.equal(19)
+    expect(await drinksQuantity).to.be.equal(19)
+    expect(await cookiesQuantity).to.be.equal(19)
+
+    // Call the restock function (as the contract owner calling it)
+    await vendingMachine.connect(owner).restock()
+
+    const [chipsQty] = await vendingMachine.getSnack("chips")
+    const [drinksQty] = await vendingMachine.getSnack("drinks")
+    const [cookiesQty] = await vendingMachine.getSnack("cookies")
+    console.log(chipsQty)
+    // Assert that the quantities have been updated to the initial quantity
+    expect(await chipsQty.toNumber()).to.equal(20)
+    expect(await drinksQty.toNumber()).to.equal(20)
+    expect(await cookiesQty.toNumber()).to.equal(20)
+  })
 })

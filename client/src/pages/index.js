@@ -19,7 +19,7 @@ export default function Home() {
 
   useEffect(() => {
     const template = async () => {
-      const contractAddress = "0x87c8e40838ae5d9d86912F4A6Fbb622BBacfa72C"
+      const contractAddress = "0xf0610339eeeFE681ABb819b2b8DF65e7b28519AC"
       const contractABI = abi.abi
 
       try {

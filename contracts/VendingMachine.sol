@@ -111,8 +111,9 @@ contract VendingMachine {
         for (uint256 i = 0; i < snackNames.length; i++) {
             string memory snackName = snackNames[i];
             Snacks storage snack = inventory[snackName];
-            uint256 restockQuantity = INITIAL_QUANTITY - snack.quantity; // Checks if the restock quantity is greater than or equal to the needed quantity
-            // checks whether the current snack quantity is less than the needed quantity
+            // Checks if the restock quantity is greater than or equal to the needed quantity
+            uint256 restockQuantity = INITIAL_QUANTITY - snack.quantity;
+            // checks whether the current snack quantity is less than the fully stocked quantity
             if (snack.quantity < INITIAL_QUANTITY) {
                 snack.quantity += restockQuantity;
             } else {
