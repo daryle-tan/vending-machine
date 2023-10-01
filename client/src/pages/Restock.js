@@ -14,7 +14,7 @@ function Restock({ state }) {
       const { contract } = state
       if (contract) {
         // Check if contract exists
-        const [quantity, price] = await contract.getSnack(snackName)
+        const [quantity] = await contract.getSnack(snackName)
         // Convert BigNumber to number
         const quantityNum = parseInt(quantity._hex, 16)
 
@@ -34,7 +34,7 @@ function Restock({ state }) {
     try {
       // Manually specify the gas limit
       const gasLimit = 15000000 // Adjust this value as needed
-      const tx = await contract.restock({ gasLimit })
+      const tx = await contract.restock()
 
       await tx.wait()
 
@@ -42,7 +42,7 @@ function Restock({ state }) {
       const snackNames = ["chips", "drinks", "cookies"]
       snackNames.forEach(getSnackInfo)
 
-      console.log(`Snacks have been restocked ${snackQuantities}`)
+      console.log(`Snacks have been restocked!`)
     } catch (error) {
       console.error("Ran into an issue while trying to restock", error)
     }

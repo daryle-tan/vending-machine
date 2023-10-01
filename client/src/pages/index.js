@@ -10,6 +10,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit"
 import abi from "../contractJson/VendingMachine.json"
 
 export default function Home() {
+  const [balance, setBalance] = useState("")
   const [account, setAccount] = useState("Not Connected")
   const [state, setState] = useState({
     provider: null,
@@ -50,6 +51,23 @@ export default function Home() {
     console.log("state", state.contract)
   }, [])
 
+  const getBalance = async () => {
+    try {
+      if (state) {
+        // Call the getBalance function of the VendingMachine contract
+        const contractBalance = await state.contract.getBalance()
+        // Format the balance value as a string
+        const formattedBalance = ethers.utils.formatEther(contractBalance)
+        // Update the balance state
+        setBalance(formattedBalance)
+        console.log("balance", balance)
+        console.log("state", state)
+      }
+    } catch (error) {
+      console.error("Error getting balance:", error)
+    }
+  }
+
   return (
     <>
       <Head>
@@ -61,12 +79,12 @@ export default function Home() {
       <main className={styles.main}>
         <div className={styles.description}>
           <div>By Daryle Tan</div>
-          <Balance state={state} />
+          <Balance state={state} getBalance={getBalance} balance={balance} />
           <ConnectButton className="connectWallet" />
         </div>
 
         <div className={styles.center}>
-          <VendingMachine state={state} />
+          <VendingMachine state={state} getBalance={getBalance} />
         </div>
 
         <div className={styles.grid}>

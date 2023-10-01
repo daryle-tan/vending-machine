@@ -3,7 +3,7 @@ import styles from "../styles/VendingMachine.module.css"
 import Image from "next/image"
 const { ethers } = require("ethers")
 
-function VendingMachine({ state }) {
+function VendingMachine({ state, getBalance }) {
   const [snackQuantities, setSnackQuantities] = useState({})
   const [snackPrices, setSnackPrices] = useState({})
   const [totals, setTotals] = useState({
@@ -17,7 +17,7 @@ function VendingMachine({ state }) {
     const snackNames = ["chips", "drinks", "cookies"]
 
     snackNames.forEach(getSnackInfoVM)
-  }, [state.contract])
+  }, [state])
 
   const getSnackInfoVM = async (snackName) => {
     try {
@@ -138,6 +138,7 @@ function VendingMachine({ state }) {
         }
       }
     }
+    getBalance()
     setIsLoading(false)
   }
 
