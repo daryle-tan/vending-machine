@@ -3,8 +3,12 @@ import styles from "../styles/VendingMachine.module.css"
 import Image from "next/image"
 const { ethers } = require("ethers")
 
-function VendingMachine({ state, getBalance }) {
-  const [snackQuantities, setSnackQuantities] = useState({})
+function VendingMachine({
+  state,
+  getBalance,
+  snackQuantities,
+  setSnackQuantities,
+}) {
   const [snackPrices, setSnackPrices] = useState({})
   const [totals, setTotals] = useState({
     chips: { quantity: 0, price: 0 },

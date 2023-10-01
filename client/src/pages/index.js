@@ -11,6 +11,7 @@ import abi from "../contractJson/VendingMachine.json"
 
 export default function Home() {
   const [balance, setBalance] = useState("")
+  const [snackQuantities, setSnackQuantities] = useState({})
   const [account, setAccount] = useState("Not Connected")
   const [state, setState] = useState({
     provider: null,
@@ -84,12 +85,21 @@ export default function Home() {
         </div>
 
         <div className={styles.center}>
-          <VendingMachine state={state} getBalance={getBalance} />
+          <VendingMachine
+            state={state}
+            getBalance={getBalance}
+            snackQuantities={snackQuantities}
+            setSnackQuantities={setSnackQuantities}
+          />
         </div>
 
         <div className={styles.grid}>
-          <Restock state={state} />
-          <WithdrawFunds state={state} />
+          <Restock
+            state={state}
+            snackQuantities={snackQuantities}
+            setSnackQuantities={setSnackQuantities}
+          />
+          <WithdrawFunds state={state} getBalance={getBalance} />
         </div>
       </main>
     </>

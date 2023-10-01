@@ -1,9 +1,7 @@
 import styles from "../styles/Restock.module.css"
 import { useEffect, useState } from "react"
 
-function Restock({ state }) {
-  const [snackQuantities, setSnackQuantities] = useState({})
-
+function Restock({ state, snackQuantities, setSnackQuantities }) {
   useEffect(() => {
     const snackNames = ["chips", "drinks", "cookies"]
     snackNames.forEach(getSnackInfo)
@@ -33,8 +31,8 @@ function Restock({ state }) {
     const { contract } = state
     try {
       // Manually specify the gas limit
-      const gasLimit = 15000000 // Adjust this value as needed
-      const tx = await contract.restock()
+      const gasLimit = 10000000 // Adjust this value as needed
+      const tx = await contract.restock({ gasLimit })
 
       await tx.wait()
 
