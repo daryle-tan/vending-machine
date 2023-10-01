@@ -106,7 +106,7 @@ contract VendingMachine {
 
     // Function to restock the inventory
     // only the owner should be able to call this fn
-    function restock() private onlyOwner {
+    function restock() external onlyOwner {
         // update quantity of snacks
         for (uint256 i = 0; i < snackNames.length; i++) {
             string memory snackName = snackNames[i];

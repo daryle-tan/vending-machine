@@ -13,6 +13,12 @@ function VendingMachine({ state }) {
   })
   const [isLoading, setIsLoading] = useState(false)
 
+  useEffect(() => {
+    const snackNames = ["chips", "drinks", "cookies"]
+
+    snackNames.forEach(getSnackInfoVM)
+  }, [state.contract])
+
   const getSnackInfoVM = async (snackName) => {
     try {
       const { contract } = state
@@ -39,12 +45,6 @@ function VendingMachine({ state }) {
       console.error(`Error getting ${snackName} info:`, error)
     }
   }
-
-  useEffect(() => {
-    const snackNames = ["chips", "drinks", "cookies"]
-
-    snackNames.forEach(getSnackInfoVM)
-  }, [state.contract])
 
   const addSnack = async (snackName) => {
     if (totals[snackName].quantity < 20 && totals[snackName].quantity >= 0) {
@@ -143,143 +143,152 @@ function VendingMachine({ state }) {
 
   return (
     <>
-      <div className={styles.vendingContainer}>
-        <div className={styles.mainVending}>
-          <div className={styles.snackContainer}>
-            <div className={styles.snackLabel}>A</div>
-            <div className={styles.snackItem}>
-              <Image
-                src="/hot-cheetos.webp"
-                width={100}
-                height={100}
-                sizes={"100vw"}
-                className={styles.snackPic}
-              />
-            </div>
-            <div className={styles.snackPrice}>{snackPrices["chips"]} ETH</div>
-            <div className={styles.snackQty}>
-              QTY: {snackQuantities["chips"]}
-            </div>
-          </div>
-          <div className={styles.snackContainer}>
-            <div className={styles.snackLabel}>B</div>
-            <div className={styles.snackItem}>
-              <Image
-                src="/coconut-water.jpeg"
-                width={100}
-                height={100}
-                sizes={"100vw"}
-                className={styles.snackPic}
-              />
-            </div>
-            <div className={styles.snackPrice}>{snackPrices["drinks"]} ETH</div>
-            <div className={styles.snackQty}>
-              QTY: {snackQuantities["drinks"]}
-            </div>
-          </div>
-          <div className={styles.snackContainer}>
-            <div className={styles.snackLabel}>C</div>
-            <div className={styles.snackItem}>
-              <Image
-                src="/cookies.jpeg"
-                width={100}
-                height={100}
-                sizes={"100vw"}
-                className={styles.snackPic}
-              />
-            </div>
-            <div className={styles.snackPrice}>
-              {snackPrices["cookies"]} ETH
-            </div>
-            <div className={styles.snackQty}>
-              QTY: {snackQuantities["cookies"]}
-            </div>
-          </div>
+      {isLoading ? (
+        <div className={styles.loadingIndicator}>
+          Waiting on transcation to complete...
         </div>
-        <div className={styles.sideVending}>
-          <div className={styles.displayScreen}>
-            <div className={styles.totalQty}>
-              <span className={styles.displaySpan}>
-                Chips Qty: {totals["chips"].quantity}
-              </span>
+      ) : (
+        <div className={styles.vendingContainer}>
+          <div className={styles.mainVending}>
+            <div className={styles.snackContainer}>
+              <div className={styles.snackLabel}>A</div>
+              <div className={styles.snackItem}>
+                <Image
+                  src="/hot-cheetos.webp"
+                  width={100}
+                  height={100}
+                  sizes={"100vw"}
+                  className={styles.snackPic}
+                  alt={"chips"}
+                />
+              </div>
+              <div className={styles.snackPrice}>
+                {snackPrices["chips"]} ETH
+              </div>
+              <div className={styles.snackQty}>
+                QTY: {snackQuantities["chips"]}
+              </div>
             </div>
-            <div className={styles.totalQty}>
-              <span className={styles.displaySpan}>
-                Drinks Qty: {totals["drinks"].quantity}
-              </span>
+            <div className={styles.snackContainer}>
+              <div className={styles.snackLabel}>B</div>
+              <div className={styles.snackItem}>
+                <Image
+                  src="/coconut-water.jpeg"
+                  width={100}
+                  height={100}
+                  sizes={"100vw"}
+                  className={styles.snackPic}
+                  alt={"drinks"}
+                />
+              </div>
+              <div className={styles.snackPrice}>
+                {snackPrices["drinks"]} ETH
+              </div>
+              <div className={styles.snackQty}>
+                QTY: {snackQuantities["drinks"]}
+              </div>
             </div>
-            <div className={styles.totalQty}>
-              <span className={styles.displaySpan}>
-                Cookies Qty: {totals["cookies"].quantity}
-              </span>
-            </div>
-            <div className={styles.totalQty}>
-              <span className={styles.displaySpan}>Total Qty: </span>
-              {getTotalQuantity()}
-            </div>
-            <div className={styles.totalAmount}>
-              <span className={styles.displaySpan}>Total Price: </span>
-              {getTotalPrice() == 0 ? 0 : getTotalPrice()} ETH
-            </div>
-          </div>
-
-          <div className={styles.controlQty}>
-            <div className={styles.controlContainer}>
-              <button
-                className={styles.decrement}
-                onClick={() => removeSnack("chips")}
-              >
-                -
-              </button>
-              <div className={styles.controlLabel}>A</div>
-              <button
-                className={styles.increment}
-                onClick={() => addSnack("chips")}
-              >
-                +
-              </button>
-            </div>
-            <div className={styles.controlContainer}>
-              <button
-                className={styles.decrement}
-                onClick={() => removeSnack("drinks")}
-              >
-                -
-              </button>
-              <div className={styles.controlLabel}>B</div>
-              <button
-                className={styles.increment}
-                onClick={() => addSnack("drinks")}
-              >
-                +
-              </button>
-            </div>
-            <div className={styles.controlContainer}>
-              <button
-                className={styles.decrement}
-                onClick={() => removeSnack("cookies")}
-              >
-                -
-              </button>
-              <div className={styles.controlLabel}>C</div>
-              <button
-                className={styles.increment}
-                onClick={() => addSnack("cookies")}
-              >
-                +
-              </button>
+            <div className={styles.snackContainer}>
+              <div className={styles.snackLabel}>C</div>
+              <div className={styles.snackItem}>
+                <Image
+                  src="/cookies.jpeg"
+                  width={100}
+                  height={100}
+                  sizes={"100vw"}
+                  className={styles.snackPic}
+                  alt={"cookies"}
+                />
+              </div>
+              <div className={styles.snackPrice}>
+                {snackPrices["cookies"]} ETH
+              </div>
+              <div className={styles.snackQty}>
+                QTY: {snackQuantities["cookies"]}
+              </div>
             </div>
           </div>
+          <div className={styles.sideVending}>
+            <div className={styles.displayScreen}>
+              <div className={styles.totalQty}>
+                <span className={styles.displaySpan}>
+                  Chips Qty: {totals["chips"].quantity}
+                </span>
+              </div>
+              <div className={styles.totalQty}>
+                <span className={styles.displaySpan}>
+                  Drinks Qty: {totals["drinks"].quantity}
+                </span>
+              </div>
+              <div className={styles.totalQty}>
+                <span className={styles.displaySpan}>
+                  Cookies Qty: {totals["cookies"].quantity}
+                </span>
+              </div>
+              <div className={styles.totalQty}>
+                <span className={styles.displaySpan}>Total Qty: </span>
+                {getTotalQuantity()}
+              </div>
+              <div className={styles.totalAmount}>
+                <span className={styles.displaySpan}>Total Price: </span>
+                {getTotalPrice() == 0 ? 0 : getTotalPrice()} ETH
+              </div>
+            </div>
 
-          {isLoading ? (
-            <div className={styles.loadingIndicator}>Loading...</div>
-          ) : (
+            <div className={styles.controlQty}>
+              <div className={styles.controlContainer}>
+                <button
+                  className={styles.decrement}
+                  onClick={() => removeSnack("chips")}
+                >
+                  -
+                </button>
+                <div className={styles.controlLabel}>A</div>
+                <button
+                  className={styles.increment}
+                  onClick={() => addSnack("chips")}
+                >
+                  +
+                </button>
+              </div>
+              <div className={styles.controlContainer}>
+                <button
+                  className={styles.decrement}
+                  onClick={() => removeSnack("drinks")}
+                >
+                  -
+                </button>
+                <div className={styles.controlLabel}>B</div>
+                <button
+                  className={styles.increment}
+                  onClick={() => addSnack("drinks")}
+                >
+                  +
+                </button>
+              </div>
+              <div className={styles.controlContainer}>
+                <button
+                  className={styles.decrement}
+                  onClick={() => removeSnack("cookies")}
+                >
+                  -
+                </button>
+                <div className={styles.controlLabel}>C</div>
+                <button
+                  className={styles.increment}
+                  onClick={() => addSnack("cookies")}
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
             <button className={styles.payButton} onClick={purchaseSnacksFn}>
               Pay
             </button>
-          )}
+          </div>
         </div>
-      </div>
+      )}
     </>
   )
 }

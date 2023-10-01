@@ -4,6 +4,11 @@ import { useEffect, useState } from "react"
 function Restock({ state }) {
   const [snackQuantities, setSnackQuantities] = useState({})
 
+  useEffect(() => {
+    const snackNames = ["chips", "drinks", "cookies"]
+    snackNames.forEach(getSnackInfo)
+  })
+
   const getSnackInfo = async (snackName) => {
     try {
       const { contract } = state
@@ -24,10 +29,24 @@ function Restock({ state }) {
     }
   }
 
-  useEffect(() => {
-    const snackNames = ["chips", "drinks", "cookies"]
-    snackNames.forEach(getSnackInfo)
-  }, [state.contract])
+  const restockSnacks = async () => {
+    const { contract } = state
+    try {
+      // Manually specify the gas limit
+      const gasLimit = 9000000 // Adjust this value as needed
+      const tx = await contract.restock({ gasLimit })
+
+      await tx.wait()
+
+      // After the restocking is successful, update the snack quantities
+      const snackNames = ["chips", "drinks", "cookies"]
+      snackNames.forEach(getSnackInfo)
+
+      console.log(`Snacks have been restocked ${snackQuantities}`)
+    } catch (error) {
+      console.error("Ran into an issue while trying to restock", error)
+    }
+  }
 
   return (
     <>
@@ -46,7 +65,9 @@ function Restock({ state }) {
             {snackQuantities["cookies"]}/20
           </div>
         </div>
-        <button className={styles.restockButton}>Restock</button>
+        <button className={styles.restockButton} onClick={restockSnacks}>
+          Restock
+        </button>
       </div>
     </>
   )

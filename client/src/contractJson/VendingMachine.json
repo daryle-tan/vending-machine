@@ -198,6 +198,15 @@
       "type": "function"
     },
     {
+      "constant": false,
+      "inputs": [],
+      "name": "restock",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "stateMutability": "payable",
       "type": "receive"
     }
