@@ -105,20 +105,24 @@ contract VendingMachine {
     }
 
     // Function to restock the inventory
-    // only the owner should be able to call this fn
-    function restock() external onlyOwner {
-        // update quantity of snacks
-        for (uint256 i = 0; i < snackNames.length; i++) {
-            string memory snackName = snackNames[i];
-            Snacks storage snack = inventory[snackName];
-            // Checks if the restock quantity is greater than or equal to the needed quantity
-            uint256 restockQuantity = INITIAL_QUANTITY - snack.quantity;
-            // checks whether the current snack quantity is less than the fully stocked quantity
-            if (snack.quantity < INITIAL_QUANTITY) {
-                snack.quantity += restockQuantity;
-            } else {
-                revert VendingMachine__OverStock("No need to restock");
-            }
+    // only the owner should be able to call this function
+    function restock() public onlyOwner {
+        // Check and restock each snack individually
+        restockSnack("chips");
+        restockSnack("drinks");
+        restockSnack("cookies");
+    }
+
+    function restockSnack(string memory snackName) private {
+        Snacks storage snack = inventory[snackName];
+        // Checks if the restock quantity is greater than or equal to the needed quantity
+        uint256 restockQuantity = INITIAL_QUANTITY - snack.quantity;
+
+        // Check whether the current snack quantity is less than the fully stocked quantity
+        if (snack.quantity < INITIAL_QUANTITY) {
+            snack.quantity += restockQuantity;
+        } else {
+            revert VendingMachine__OverStock("No need to restock");
         }
     }
 

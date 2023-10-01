@@ -22,7 +22,7 @@ function Balance({ state }) {
 
   useEffect(() => {
     getBalance()
-  }, [state])
+  })
 
   return (
     <>

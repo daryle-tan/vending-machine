@@ -111,7 +111,7 @@ describe("VendingMachine", function () {
     const { vendingMachine, owner, addr1 } = await loadFixture(
       deployVendingMachineFixture,
     )
-
+    const snacks = ["chips", "drinks", "cookies"]
     // calls the purchaseSnack function to reduce the quantity of each snack
     const snack1 = await vendingMachine
       .connect(addr1)
@@ -136,9 +136,9 @@ describe("VendingMachine", function () {
     const [drinksQuantity] = await vendingMachine.getSnack("drinks")
     const [cookiesQuantity] = await vendingMachine.getSnack("cookies")
     console.log(chipsQuantity)
-    expect(await chipsQuantity).to.be.equal(19)
-    expect(await drinksQuantity).to.be.equal(19)
-    expect(await cookiesQuantity).to.be.equal(19)
+    expect(chipsQuantity).to.be.equal(19)
+    expect(drinksQuantity).to.be.equal(19)
+    expect(cookiesQuantity).to.be.equal(19)
 
     // Call the restock function (as the contract owner calling it)
     await vendingMachine.connect(owner).restock()
@@ -148,8 +148,8 @@ describe("VendingMachine", function () {
     const [cookiesQty] = await vendingMachine.getSnack("cookies")
     console.log(chipsQty)
     // Assert that the quantities have been updated to the initial quantity
-    expect(await chipsQty.toNumber()).to.equal(20)
-    expect(await drinksQty.toNumber()).to.equal(20)
-    expect(await cookiesQty.toNumber()).to.equal(20)
+    expect(chipsQty.toNumber()).to.equal(20)
+    expect(drinksQty.toNumber()).to.equal(20)
+    expect(cookiesQty.toNumber()).to.equal(20)
   })
 })

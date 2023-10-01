@@ -33,7 +33,7 @@ function Restock({ state }) {
     const { contract } = state
     try {
       // Manually specify the gas limit
-      const gasLimit = 9000000 // Adjust this value as needed
+      const gasLimit = 15000000 // Adjust this value as needed
       const tx = await contract.restock({ gasLimit })
 
       await tx.wait()
