@@ -51,42 +51,51 @@ function VendingMachine({
   }
 
   const addSnack = async (snackName) => {
-    if (totals[snackName].quantity < 20 && totals[snackName].quantity >= 0) {
-      const { contract } = state
-      const [totalQ, totalP] = await contract.getSnack(snackName)
-      // Convert BigNumber to number
-      const quantityNum = parseInt(totalQ._hex, 16)
-      const ethPriceWei = await totalP.toString()
-      // Convert wei to ETH using ethers.js
-      const ethPrice = ethers.utils.formatEther(ethPriceWei)
+    try {
+      if (totals[snackName].quantity < 20 && totals[snackName].quantity >= 0) {
+        const { contract } = state
+        const [totalQ, totalP] = await contract.getSnack(snackName)
+        // Convert BigNumber to number
+        const quantityNum = parseInt(totalQ._hex, 16)
+        const ethPriceWei = await totalP.toString()
+        // Convert wei to ETH using ethers.js
+        const ethPrice = ethers.utils.formatEther(ethPriceWei)
 
-      const newQuantity = totals[snackName].quantity + 1
-      const newPrice = newQuantity * ethPrice
+        const newQuantity = totals[snackName].quantity + 1
+        const newPrice = newQuantity * ethPrice
 
-      setTotals((prevTotals) => ({
-        ...prevTotals,
-        [snackName]: { quantity: newQuantity, price: newPrice },
-      }))
+        setTotals((prevTotals) => ({
+          ...prevTotals,
+          [snackName]: { quantity: newQuantity, price: newPrice },
+        }))
+      }
+    } catch (error) {
+      console.error(error)
+      alert("Please connect wallet")
     }
   }
 
   const removeSnack = async (snackName) => {
-    if (totals[snackName].quantity <= 20 && totals[snackName].quantity > 0) {
-      const { contract } = state
-      const [totalQ, totalP] = await contract.getSnack(snackName)
-      // Convert BigNumber to number
-      const quantityNum = parseInt(totalQ._hex, 16)
-      const ethPriceWei = await totalP.toString()
-      // Convert wei to ETH using ethers.js
-      const ethPrice = ethers.utils.formatEther(ethPriceWei)
+    try {
+      if (totals[snackName].quantity <= 20 && totals[snackName].quantity > 0) {
+        const { contract } = state
+        const [totalQ, totalP] = await contract.getSnack(snackName)
+        // Convert BigNumber to number
+        const quantityNum = parseInt(totalQ._hex, 16)
+        const ethPriceWei = await totalP.toString()
+        // Convert wei to ETH using ethers.js
+        const ethPrice = ethers.utils.formatEther(ethPriceWei)
 
-      const newQuantity = totals[snackName].quantity - 1
-      const newPrice = newQuantity * ethPrice
+        const newQuantity = totals[snackName].quantity - 1
+        const newPrice = newQuantity * ethPrice
 
-      setTotals((prevTotals) => ({
-        ...prevTotals,
-        [snackName]: { quantity: newQuantity, price: newPrice },
-      }))
+        setTotals((prevTotals) => ({
+          ...prevTotals,
+          [snackName]: { quantity: newQuantity, price: newPrice },
+        }))
+      }
+    } catch (error) {
+      console.error()
     }
   }
 
@@ -156,60 +165,69 @@ function VendingMachine({
         <div className={styles.vendingContainer}>
           <div className={styles.mainVending}>
             <div className={styles.snackContainer}>
-              <div className={styles.snackLabel}>A</div>
+              <div className={styles.snackLabel}>Chips</div>
               <div className={styles.snackItem}>
                 <Image
-                  src="/hot-cheetos.webp"
+                  src="/hot-cheetos.png"
                   width={100}
                   height={100}
                   sizes={"100vw"}
                   className={styles.snackPic}
                   alt={"chips"}
+                  style={{ borderRadius: "2.5px" }}
                 />
               </div>
-              <div className={styles.snackPrice}>
-                {snackPrices["chips"]} ETH
-              </div>
-              <div className={styles.snackQty}>
-                QTY: {snackQuantities["chips"]}
+              <div className={styles.qtyPriceContainer}>
+                <div className={styles.snackPrice}>
+                  {snackPrices["chips"]} ETH
+                </div>
+                <div className={styles.snackQty}>
+                  QTY: {snackQuantities["chips"]}
+                </div>
               </div>
             </div>
             <div className={styles.snackContainer}>
-              <div className={styles.snackLabel}>B</div>
+              <div className={styles.snackLabel}>Drinks</div>
               <div className={styles.snackItem}>
                 <Image
-                  src="/coconut-water.jpeg"
+                  src="/drinks.png"
                   width={100}
                   height={100}
                   sizes={"100vw"}
                   className={styles.snackPic}
                   alt={"drinks"}
+                  style={{ borderRadius: "2.5px" }}
                 />
               </div>
-              <div className={styles.snackPrice}>
-                {snackPrices["drinks"]} ETH
-              </div>
-              <div className={styles.snackQty}>
-                QTY: {snackQuantities["drinks"]}
+              <div className={styles.qtyPriceContainer}>
+                <div className={styles.snackPrice}>
+                  {snackPrices["drinks"]} ETH
+                </div>
+                <div className={styles.snackQty}>
+                  QTY: {snackQuantities["drinks"]}
+                </div>
               </div>
             </div>
             <div className={styles.snackContainer}>
-              <div className={styles.snackLabel}>C</div>
+              <div className={styles.snackLabel}>Cookies</div>
               <div className={styles.snackItem}>
                 <Image
-                  src="/cookies.jpeg"
+                  src="/cookies.png"
                   width={100}
                   height={100}
                   sizes={"100vw"}
                   className={styles.snackPic}
                   alt={"cookies"}
+                  style={{ borderRadius: "2.5px" }}
                 />
               </div>
-              <div className={styles.snackPrice}>
-                {snackPrices["cookies"]} ETH
-              </div>
-              <div className={styles.snackQty}>
-                QTY: {snackQuantities["cookies"]}
+              <div className={styles.qtyPriceContainer}>
+                <div className={styles.snackPrice}>
+                  {snackPrices["cookies"]} ETH
+                </div>
+                <div className={styles.snackQty}>
+                  QTY: {snackQuantities["cookies"]}
+                </div>
               </div>
             </div>
           </div>
@@ -248,7 +266,7 @@ function VendingMachine({
                 >
                   -
                 </button>
-                <div className={styles.controlLabel}>A</div>
+                <div className={styles.controlLabel}>Chips</div>
                 <button
                   className={styles.increment}
                   onClick={() => addSnack("chips")}
@@ -263,7 +281,7 @@ function VendingMachine({
                 >
                   -
                 </button>
-                <div className={styles.controlLabel}>B</div>
+                <div className={styles.controlLabel}>Drinks</div>
                 <button
                   className={styles.increment}
                   onClick={() => addSnack("drinks")}
@@ -278,7 +296,7 @@ function VendingMachine({
                 >
                   -
                 </button>
-                <div className={styles.controlLabel}>C</div>
+                <div className={styles.controlLabel}>Cookies</div>
                 <button
                   className={styles.increment}
                   onClick={() => addSnack("cookies")}

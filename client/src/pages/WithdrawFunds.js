@@ -15,11 +15,11 @@ function WithdrawFunds({ state, getBalance }) {
   }
   return (
     <>
-      <div className={styles.WithdrawContainer}>
-        <button className={styles.withdrawButton} onClick={withdrawFunds}>
-          Withdraw Funds
-        </button>
-      </div>
+      {/* <div className={styles.WithdrawContainer}> */}
+      <button className={styles.withdrawButton} onClick={withdrawFunds}>
+        Withdraw Funds
+      </button>
+      {/* </div> */}
     </>
   )
 }

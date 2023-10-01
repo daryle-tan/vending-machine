@@ -1,15 +1,17 @@
-.WithdrawContainer {
+/* .WithdrawContainer {
   border: solid teal 2px;
   width: 25%;
+  height: 5vh;
   padding: 5px;
-}
+} */
 
 .withdrawButton {
-  padding: 5px;
-  width: 100%;
-  height: 100%;
+  width: 25%;
+  height: 5vh;
   background-color: teal;
   color: whitesmoke;
   font-weight: bold;
   cursor: pointer;
+  font-family: var(--font-mono);
+  border-radius: 2.5px;
 }

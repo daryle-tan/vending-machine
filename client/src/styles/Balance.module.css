@@ -1,3 +1,4 @@
 .BalanceContainer {
   /* border: solid yellow 1px; */
+  font-family: var(--font-mono);
 }

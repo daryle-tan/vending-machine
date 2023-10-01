@@ -1,25 +1,36 @@
 .RestockContainer {
-  border: solid teal 2px;
+  /* border: solid teal 2px; */
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   width: 50%;
   padding: 5px;
+  font-family: var(--font-mono);
 }
 
 .inventoryContainer {
-  border: solid teal 2px;
+  /* border: solid teal 2px; */
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
-  width: 35%;
+  font-family: var(--font-mono);
+  width: 45%;
   padding: 5px;
 }
 
 .restockButton {
   width: 40%;
+  height: 5vh;
   background-color: teal;
   color: whitesmoke;
   font-weight: bold;
   cursor: pointer;
+  font-family: var(--font-mono);
+  border-radius: 2.5px;
+}
+.inventoryQty {
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  gap: 4px;
 }

@@ -6,9 +6,10 @@
   border-radius: var(--border-radius);
   overflow: hidden;
   box-shadow: 0px 2px 8px -1px #0000001a;
-  width: 60vw;
+  width: 65vw;
   justify-content: space-around;
   padding: 15px;
+  font-family: var(--font-mono);
 }
 
 .mainVending {
@@ -17,6 +18,13 @@
   width: 40vw;
   border: solid teal 2px;
   padding: 10px;
+  border-radius: 12px 0 0 12px;
+}
+.qtyPriceContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5px;
+  align-items: center;
 }
 
 .sideVending {
@@ -25,36 +33,39 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  border-radius: 0px 12px 12px 0px;
 }
 
 .snackContainer {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
   margin: 5px;
 }
 
 .snackLabel {
   border: solid teal 2px;
-  padding: 3px;
+  padding: 2px 7px 2px 7px;
+  border-radius: 3px;
 }
 
 .snackItem {
   margin-top: 5px;
-  background-color: transparent;
+  /* background-color: transparent; */
 }
 
 .displayScreen {
-  border: solid teal 2px;
+  /* border: solid teal 2px; */
   display: flex;
   flex-direction: column;
-  padding: 5px;
-  /* margin-bottom: 5px; */
+  padding: 10px;
+  font-family: var(--font-mono);
+  gap: 5px;
 }
 
 .controlQty {
-  border: solid teal 2px;
+  border-top: solid teal 2px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -63,9 +74,10 @@
 
 .controlContainer {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   padding: 5px;
   width: 80%;
+  font-family: var(--font-mono);
 }
 
 .decrement {
@@ -78,9 +90,13 @@
 .payButton {
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 100%;
+  height: 3.5vh;
   background-color: teal;
   color: whitesmoke;
   font-weight: bold;
   cursor: pointer;
+  font-family: var(--font-mono);
+  border-radius: 2.5px;
 }
