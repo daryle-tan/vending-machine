@@ -1,7 +1,9 @@
 import styles from "../styles/WithdrawFunds.module.css"
+import LoadingModal from "./LoadingModal"
 
-function WithdrawFunds({ state, getBalance }) {
+function WithdrawFunds({ state, getBalance, isLoading, setIsLoading }) {
   const withdrawFunds = async () => {
+    setIsLoading(true)
     const { contract } = state
     try {
       const withdraw = await contract.withdraw()
@@ -12,14 +14,17 @@ function WithdrawFunds({ state, getBalance }) {
       console.error("Issue withdrawing funds", error)
     }
     getBalance()
+    setIsLoading(false)
   }
   return (
     <>
-      {/* <div className={styles.WithdrawContainer}> */}
-      <button className={styles.withdrawButton} onClick={withdrawFunds}>
-        Withdraw Funds
-      </button>
-      {/* </div> */}
+      {isLoading ? (
+        <LoadingModal />
+      ) : (
+        <button className={styles.withdrawButton} onClick={withdrawFunds}>
+          Withdraw Funds
+        </button>
+      )}
     </>
   )
 }

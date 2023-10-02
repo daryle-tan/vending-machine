@@ -1,7 +1,14 @@
 import styles from "../styles/Restock.module.css"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
+import LoadingModal from "./LoadingModal"
 
-function Restock({ state, snackQuantities, setSnackQuantities }) {
+function Restock({
+  state,
+  snackQuantities,
+  setSnackQuantities,
+  isLoading,
+  setIsLoading,
+}) {
   useEffect(() => {
     const snackNames = ["chips", "drinks", "cookies"]
     snackNames.forEach(getSnackInfo)
@@ -28,6 +35,7 @@ function Restock({ state, snackQuantities, setSnackQuantities }) {
   }
 
   const restockSnacks = async () => {
+    setIsLoading(true)
     const { contract } = state
     try {
       // Manually specify the gas limit
@@ -44,29 +52,34 @@ function Restock({ state, snackQuantities, setSnackQuantities }) {
     } catch (error) {
       console.error("Ran into an issue while trying to restock", error)
     }
+    setIsLoading(false)
   }
 
   return (
     <>
-      <div className={styles.RestockContainer}>
-        <div className={styles.inventoryContainer}>
-          <div className={styles.inventoryQty}>
-            <span className={styles.spanInventory}>Chips: </span>
-            {snackQuantities["chips"]}/20
+      {isLoading ? (
+        <LoadingModal />
+      ) : (
+        <div className={styles.RestockContainer}>
+          <div className={styles.inventoryContainer}>
+            <div className={styles.inventoryQty}>
+              <span className={styles.spanInventory}>Chips: </span>
+              {snackQuantities["chips"]}/20
+            </div>
+            <div className={styles.inventoryQty}>
+              <span className={styles.spanInventory}>Drinks: </span>
+              {snackQuantities["drinks"]}/20
+            </div>
+            <div className={styles.inventoryQty}>
+              <span className={styles.spanInventory}>Cookies: </span>
+              {snackQuantities["cookies"]}/20
+            </div>
           </div>
-          <div className={styles.inventoryQty}>
-            <span className={styles.spanInventory}>Drinks: </span>
-            {snackQuantities["drinks"]}/20
-          </div>
-          <div className={styles.inventoryQty}>
-            <span className={styles.spanInventory}>Cookies: </span>
-            {snackQuantities["cookies"]}/20
-          </div>
+          <button className={styles.restockButton} onClick={restockSnacks}>
+            Restock
+          </button>
         </div>
-        <button className={styles.restockButton} onClick={restockSnacks}>
-          Restock
-        </button>
-      </div>
+      )}
     </>
   )
 }

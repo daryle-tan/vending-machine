@@ -100,3 +100,7 @@
   font-family: var(--font-mono);
   border-radius: 2.5px;
 }
+
+.loadingIndicator {
+  border: solid 2px teal;
+}

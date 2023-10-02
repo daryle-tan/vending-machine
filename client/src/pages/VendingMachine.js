@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react"
 import styles from "../styles/VendingMachine.module.css"
 import Image from "next/image"
+import LoadingModal from "./LoadingModal"
+
 const { ethers } = require("ethers")
 
 function VendingMachine({
@@ -8,6 +10,8 @@ function VendingMachine({
   getBalance,
   snackQuantities,
   setSnackQuantities,
+  isLoading,
+  setIsLoading,
 }) {
   const [snackPrices, setSnackPrices] = useState({})
   const [totals, setTotals] = useState({
@@ -15,7 +19,6 @@ function VendingMachine({
     drinks: { quantity: 0, price: 0 },
     cookies: { quantity: 0, price: 0 },
   })
-  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const snackNames = ["chips", "drinks", "cookies"]
@@ -158,9 +161,7 @@ function VendingMachine({
   return (
     <>
       {isLoading ? (
-        <div className={styles.loadingIndicator}>
-          Waiting on transcation to complete...
-        </div>
+        <LoadingModal />
       ) : (
         <div className={styles.vendingContainer}>
           <div className={styles.mainVending}>

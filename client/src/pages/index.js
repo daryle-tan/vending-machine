@@ -13,6 +13,7 @@ export default function Home() {
   const [balance, setBalance] = useState("")
   const [snackQuantities, setSnackQuantities] = useState({})
   const [account, setAccount] = useState("Not Connected")
+  const [isLoading, setIsLoading] = useState(false)
   const [state, setState] = useState({
     provider: null,
     signer: null,
@@ -90,6 +91,8 @@ export default function Home() {
             getBalance={getBalance}
             snackQuantities={snackQuantities}
             setSnackQuantities={setSnackQuantities}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
           />
         </div>
 
@@ -98,8 +101,15 @@ export default function Home() {
             state={state}
             snackQuantities={snackQuantities}
             setSnackQuantities={setSnackQuantities}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
           />
-          <WithdrawFunds state={state} getBalance={getBalance} />
+          <WithdrawFunds
+            state={state}
+            getBalance={getBalance}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+          />
         </div>
       </main>
     </>
