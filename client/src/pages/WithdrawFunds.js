@@ -12,6 +12,7 @@ function WithdrawFunds({ state, getBalance, isLoading, setIsLoading }) {
       console.log("Show me the money!")
     } catch (error) {
       console.error("Issue withdrawing funds", error)
+      alert("Must be contract owner to withdraw funds.")
     }
     getBalance()
     setIsLoading(false)

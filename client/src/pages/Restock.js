@@ -51,6 +51,7 @@ function Restock({
       console.log(`Snacks have been restocked!`)
     } catch (error) {
       console.error("Ran into an issue while trying to restock", error)
+      alert("Must be contract owner to restock inventory.")
     }
     setIsLoading(false)
   }
