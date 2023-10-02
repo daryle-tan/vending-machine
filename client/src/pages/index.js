@@ -76,7 +76,7 @@ export default function Home() {
         <title>Vending Machine</title>
         <meta name="description" content="vending machine smart contract" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/vending-machine.png" />
       </Head>
       <main className={styles.main}>
         <div className={styles.description}>
@@ -111,6 +111,14 @@ export default function Home() {
             setIsLoading={setIsLoading}
           />
         </div>
+        <footer className={styles.footer}>
+          <a
+            href="https://www.flaticon.com/free-icons/vending-machine"
+            title="vending machine icons"
+          >
+            Vending machine icons created by Pixel Buddha Premium - Flaticon
+          </a>
+        </footer>
       </main>
     </>
   )

@@ -124,9 +124,10 @@
   transform: translateZ(0);
 }
 
-.logo,
-.thirteen {
-  position: relative;
+.footer {
+  margin-top: 5em;
+  font-family: var(--font-mono);
+  font-size: 12px;
 }
 
 .thirteen {
