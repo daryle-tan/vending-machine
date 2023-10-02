@@ -11,7 +11,11 @@ import abi from "../contractJson/VendingMachine.json"
 
 export default function Home() {
   const [balance, setBalance] = useState("")
-  const [snackQuantities, setSnackQuantities] = useState({})
+  const [snackQuantities, setSnackQuantities] = useState({
+    chips: 0,
+    drinks: 0,
+    cookies: 0,
+  })
   const [account, setAccount] = useState("Not Connected")
   const [isLoading, setIsLoading] = useState(false)
   const [state, setState] = useState({

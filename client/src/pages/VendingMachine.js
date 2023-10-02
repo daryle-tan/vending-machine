@@ -183,7 +183,7 @@ function VendingMachine({
                   {snackPrices["chips"]} ETH
                 </div>
                 <div className={styles.snackQty}>
-                  QTY: {snackQuantities["chips"]}
+                  QTY: {snackQuantities?.chips || 0}
                 </div>
               </div>
             </div>
@@ -205,7 +205,7 @@ function VendingMachine({
                   {snackPrices["drinks"]} ETH
                 </div>
                 <div className={styles.snackQty}>
-                  QTY: {snackQuantities["drinks"]}
+                  QTY: {snackQuantities?.drinks || 0}
                 </div>
               </div>
             </div>
@@ -227,7 +227,7 @@ function VendingMachine({
                   {snackPrices["cookies"]} ETH
                 </div>
                 <div className={styles.snackQty}>
-                  QTY: {snackQuantities["cookies"]}
+                  QTY: {snackQuantities?.cookies}
                 </div>
               </div>
             </div>

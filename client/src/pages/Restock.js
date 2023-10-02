@@ -64,15 +64,15 @@ function Restock({
           <div className={styles.inventoryContainer}>
             <div className={styles.inventoryQty}>
               <span className={styles.spanInventory}>Chips: </span>
-              {snackQuantities["chips"]}/20
+              {snackQuantities?.chips || 0}/20
             </div>
             <div className={styles.inventoryQty}>
               <span className={styles.spanInventory}>Drinks: </span>
-              {snackQuantities["drinks"]}/20
+              {snackQuantities?.drinks || 0}/20
             </div>
             <div className={styles.inventoryQty}>
               <span className={styles.spanInventory}>Cookies: </span>
-              {snackQuantities["cookies"]}/20
+              {snackQuantities?.cookies || 0}/20
             </div>
           </div>
           <button className={styles.restockButton} onClick={restockSnacks}>
