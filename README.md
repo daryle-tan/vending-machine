@@ -44,7 +44,7 @@ B. There will be a user interface that allows the customer to interact with the 
 
 run 'npx hardhat'
 
-In a separate terminal and ensure that you are in the app directory run 'npm run dev' to start next.js
+In a separate terminal and ensure that you are in the client directory run 'npm run dev' to start next.js
 
 ## Contract Address
 

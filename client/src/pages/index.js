@@ -47,14 +47,13 @@ export default function Home() {
           contractABI,
           signer,
         )
-        console.log(contract)
+
         setState({ provider, signer, contract })
       } catch (error) {
         console.log(error)
       }
     }
     template()
-    console.log("state", state.contract)
   }, [])
 
   const getBalance = async () => {
@@ -86,7 +85,9 @@ export default function Home() {
         <div className={styles.description}>
           <div>By Daryle Tan</div>
           <Balance state={state} getBalance={getBalance} balance={balance} />
-          <ConnectButton className="connectWallet" />
+          <div className={styles.ConnectButton}>
+            <ConnectButton className="connectWallet" />
+          </div>
         </div>
 
         <div className={styles.center}>
