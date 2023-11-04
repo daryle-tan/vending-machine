@@ -16,7 +16,9 @@ export default function Home() {
     drinks: 0,
     cookies: 0,
   })
+  const [userAddress, setUserAddress] = useState("")
   const [account, setAccount] = useState("Not Connected")
+  const [isConnected, setIsConnected] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [state, setState] = useState({
     provider: null,
@@ -24,37 +26,38 @@ export default function Home() {
     contract: null,
   })
 
-  useEffect(() => {
-    const template = async () => {
-      const contractAddress = "0xA99F1A7Dd3EB012D9d59Feea783096Ab53492843"
-      const contractABI = abi.abi
+  // useEffect(() => {
+  const template = async () => {
+    const contractAddress = "0xA99F1A7Dd3EB012D9d59Feea783096Ab53492843"
+    const contractABI = abi.abi
 
-      try {
-        const { ethereum } = window
-        const account = await ethereum.request({
-          method: "eth_requestAccounts",
-        })
+    try {
+      const { ethereum } = window
+      const account = await ethereum.request({
+        method: "eth_requestAccounts",
+      })
 
-        window.ethereum.on("accountsChanged", () => {
-          window.location.reload()
-        })
-        setAccount(account)
-        const provider = new ethers.providers.Web3Provider(ethereum) //read from the Blockchain
-        const signer = provider.getSigner() //write to the blockchain
+      window.ethereum.on("accountsChanged", () => {
+        window.location.reload()
+      })
+      const address = ethers.utils.getAddress(account[0])
 
-        const contract = new ethers.Contract(
-          contractAddress,
-          contractABI,
-          signer,
-        )
+      setAccount(account)
+      const provider = new ethers.providers.Web3Provider(ethereum) //read from the Blockchain
+      const signer = provider.getSigner() //write to the blockchain
 
-        setState({ provider, signer, contract })
-      } catch (error) {
-        console.log(error)
-      }
+      const contract = new ethers.Contract(contractAddress, contractABI, signer)
+      console.log(address)
+      setState({ provider, signer, contract })
+      setIsConnected(true)
+      setUserAddress(address)
+    } catch (error) {
+      console.log(error)
     }
-    template()
-  }, [])
+    // template()
+  }
+
+  // }, [])
 
   const getBalance = async () => {
     try {
@@ -85,9 +88,16 @@ export default function Home() {
         <div className={styles.description}>
           <div>By Daryle Tan</div>
           <Balance state={state} getBalance={getBalance} balance={balance} />
-          <div className={styles.ConnectButton}>
-            <ConnectButton className="connectWallet" />
-          </div>
+
+          {isConnected ? (
+            <div className={styles.ConnectButton}>
+              {userAddress.slice(0, 6) + "..." + userAddress.slice(-6)}
+            </div>
+          ) : (
+            <button className={styles.connectWallet} onClick={template}>
+              Connect
+            </button>
+          )}
         </div>
 
         <div className={styles.center}>
